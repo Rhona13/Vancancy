@@ -24,9 +24,9 @@ public class registrationform extends javax.swing.JFrame {
         initComponents();
     }
 
-    public static boolean registerAccount(String user, String password, String email, String contact, String firstName, String lastName) {
+    public static boolean registerAccount(String firstName, String lastName, String email, String user, String password, String contact) {
 
-        if (!contact.matches("\\d+")) {
+         if (!contact.matches("\\d+")) {
             JOptionPane.showMessageDialog(null, "Contact Must Contain Only Digits!");
             return false;
         }
@@ -37,6 +37,8 @@ public class registrationform extends javax.swing.JFrame {
             checkerStmt.setString(1, email);
             checkerStmt.setString(2, user);
             checkerStmt.setString(3, contact);
+
+      
             ResultSet resultStmt = checkerStmt.executeQuery();
             resultStmt.next();
             int count = resultStmt.getInt(1);
@@ -48,13 +50,13 @@ public class registrationform extends javax.swing.JFrame {
 
             cn.setAutoCommit(false);
 
-            PreparedStatement insertStmt = cn.prepareStatement("INSERT INTO rent (fn,ln,email,username,pass,contact,status) VALUES (?,?,?,?,?,?,'Active')");
+            PreparedStatement insertStmt = cn.prepareStatement("INSERT INTO rent (fn,ln,email,username,pass,status,contact) VALUES (?,?,?,?,?,?,'Active')");
             insertStmt.setString(1, firstName);
-            insertStmt.setString(2, lastName);
+            insertStmt.setString(2, contact);
             insertStmt.setString(3, email);
             insertStmt.setString(4, user);
             insertStmt.setString(5, password);
-            insertStmt.setString(6, contact);
+            insertStmt.setString(6, lastName);
             
             int rows = insertStmt.executeUpdate();
 
@@ -193,6 +195,12 @@ public class registrationform extends javax.swing.JFrame {
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
         jPanel1.add(fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 290, 30));
         jPanel1.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 170, 290, 30));
+
+        contact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactActionPerformed(evt);
+            }
+        });
         jPanel1.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 290, 30));
 
         asd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -252,12 +260,14 @@ public class registrationform extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (contact.getText().length() <= 10) {
-            JOptionPane.showMessageDialog(this, "Contact Must Be Atleast 10 Characters!");
-        } else if (!email.getText().contains("@gmail.com")) {
-            JOptionPane.showMessageDialog(this, "Email Must Contain @gmail.com! TANGINAMO!");
-        } else if (pass.getText().length() <= 7) {
-            JOptionPane.showMessageDialog(this, "Password Must Be Atleast 7 Characters!");
+      
+          if (contact.getText().length() <= 10) {
+            JOptionPane.showMessageDialog(this, "Contact Must Be Atleast 11 Characters!");
+
+          }else if (!email.getText().contains("@gmail.com")) {
+            JOptionPane.showMessageDialog(this, "Email Must Contain @gmail.com!");
+        } else if (pass.getText().length() <= 8) {
+            JOptionPane.showMessageDialog(this, "Password Must Be Atleast 8 Characters!");
         } else {
 
             if (registerAccount(fn.getText(), ln.getText(), email.getText(), username.getText(), pass.getText(), contact.getText())) {
@@ -280,6 +290,10 @@ public class registrationform extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void contactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contactActionPerformed
 
     /**
      * @param args the command line arguments

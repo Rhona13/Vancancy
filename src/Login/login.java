@@ -45,6 +45,23 @@ public class login extends javax.swing.JFrame {
         }
     }
     
+    public static void showTable(DefaultTableModel table) {
+
+        try {
+
+            ResultSet rs = new DBConnector().getData("SELECT * FROM rent");
+
+            while (rs.next()) {
+                table.addRow(new String[]{rs.getString("id"), rs.getString("fn"), rs.getString("ln"), rs.getString("email"), rs.getString("username"), rs.getString("pass"), rs.getString("contact"), rs.getString("status")});
+            }
+
+        } catch (SQLException er) {
+            System.out.println("Error: " + er.getMessage());
+        }
+
+    }
+
+    
      
     
 
