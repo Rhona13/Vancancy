@@ -5,14 +5,13 @@
  */
 package Registration;
 
-import Admindashboard.Admin;
 import Config.DBConnector;
-import User.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import Login.login;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+
+
 
 /**
  *
@@ -23,53 +22,39 @@ public class registrationform extends javax.swing.JFrame {
     public registrationform() {
         initComponents();
     }
+          public static String em, usname;
+          
+          public boolean duplicateCheck(){
+ 
+              DBConnector DBConnector = new DBConnector();
+        try{
+        String query = "SELECT * FROM rent WHERE t_username = '" + username.getText()+ "' OR t_email = '" + email.getText()+ "'";
 
-    public static boolean registerAccount(String firstName, String lastName, String email, String user, String password, String contact) {
-
-         if (!contact.matches("\\d+")) {
-            JOptionPane.showMessageDialog(null, "Contact Must Contain Only Digits!");
-            return false;
-        }
-
-        try (Connection cn = new DBConnector().getConnection()) {
-
-            PreparedStatement checkerStmt = cn.prepareStatement("SELECT COUNT(*) FROM rent WHERE email = ? OR username = ? OR contact = ?");
-            checkerStmt.setString(1, email);
-            checkerStmt.setString(2, user);
-            checkerStmt.setString(3, contact);
-
-      
-            ResultSet resultStmt = checkerStmt.executeQuery();
-            resultStmt.next();
-            int count = resultStmt.getInt(1);
-
-            if (count > 0) {
-                JOptionPane.showMessageDialog(null, "Account Already Exist!");
-                return false;
+        ResultSet resultSet = DBConnector .getData(query);
+ 
+        if(resultSet.next()){
+        em= resultSet.getString("t_email"); 
+           if(em.equals(email.getText())){
+                JOptionPane.showMessageDialog(null, "Email Already Exist!"); 
+                 email.setText("");
+                 }
+        usname = resultSet.getString("t_username");
+          if(usname.equals(username.getText())){
+                JOptionPane.showMessageDialog(null, "Username Already Exist!"); 
+                username.setText("");
             }
+        return true;
 
-            cn.setAutoCommit(false);
-
-            PreparedStatement insertStmt = cn.prepareStatement("INSERT INTO rent (fn,ln,email,username,pass,status,contact) VALUES (?,?,?,?,?,?,'Active')");
-            insertStmt.setString(1, firstName);
-            insertStmt.setString(2, contact);
-            insertStmt.setString(3, email);
-            insertStmt.setString(4, user);
-            insertStmt.setString(5, password);
-            insertStmt.setString(6, lastName);
-            
-            int rows = insertStmt.executeUpdate();
-
-            cn.commit();
-
-            return rows > 0;
-
-        } catch (SQLException er) {
-            System.out.println("Eror: " + er.getMessage());
-        }
-
+        }else{
         return false;
-    }
+        }
+        }catch(SQLException ex){
+        System.out.println(""+ex);
+        return false;
+         }
+         }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,6 +95,8 @@ public class registrationform extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
         username = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -145,6 +132,12 @@ public class registrationform extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Contact:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 70, 27));
+
+        pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passActionPerformed(evt);
+            }
+        });
         jPanel1.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 290, 30));
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
@@ -204,7 +197,7 @@ public class registrationform extends javax.swing.JFrame {
         jPanel1.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 290, 30));
 
         asd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        asd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "USER" }));
+        asd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
         asd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 asdActionPerformed(evt);
@@ -219,7 +212,7 @@ public class registrationform extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 110, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 410, 110, 40));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton2.setText("REGISTER");
@@ -228,7 +221,7 @@ public class registrationform extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 430, 110, 40));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 410, 110, 40));
         jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -236,6 +229,31 @@ public class registrationform extends javax.swing.JFrame {
         jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, 27));
         jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, 290, 30));
         jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 290, 30));
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
+        jLabel19.setText("Registered?");
+        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 460, 90, 20));
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
+        jLabel20.setText("Click here to login.");
+        jLabel20.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel20AncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel20MouseEntered(evt);
+            }
+        });
+        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 460, 110, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -245,10 +263,11 @@ public class registrationform extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void asdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asdActionPerformed
@@ -260,40 +279,64 @@ public class registrationform extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+           if(fn.getText().isEmpty() || ln.getText().isEmpty() || email.getText().isEmpty()
+                   || username.getText().isEmpty() || pass.getText().isEmpty() ||  contact.getText().isEmpty()  ){
+                  JOptionPane.showMessageDialog(null, "All fields are required!");
+                  
+           }else if(pass.getText().length() < 8){
+             JOptionPane.showMessageDialog(null, "Password character should be 8 above"); 
+             pass.setText("");
+             
+           }else if(duplicateCheck()){
+               System.out.println("Duplicate Exist!");
+         }else {
+            DBConnector DBConnector = new DBConnector();
+       
+       if(DBConnector.insertData("INSERT INTO rent (t_fn, t_ln, t_email, t_username, t_pass, t_contact, t_type, t_status) "
+        + "VALUES ('" + fn.getText() + "', '" + ln.getText() + "', '" + email.getText() + "', '" + username.getText() + "', '" + pass.getText() + "', '" + contact.getText() + "', '" + asd.getSelectedItem() + "','Pending')"))
+
+       {
+           JOptionPane.showMessageDialog(null,"Inserted Successfully!");
+           setVisible(false);
+           login login = new login();
+           login.setVisible(true);
+           this.dispose();
+       
+       }else{
+           
+           JOptionPane.showMessageDialog(null,"Connection Error!");
+       }
+       
+
+           }
+        
+       
+
       
-          if (contact.getText().length() <= 10) {
-            JOptionPane.showMessageDialog(this, "Contact Must Be Atleast 11 Characters!");
-
-          }else if (!email.getText().contains("@gmail.com")) {
-            JOptionPane.showMessageDialog(this, "Email Must Contain @gmail.com!");
-        } else if (pass.getText().length() <= 8) {
-            JOptionPane.showMessageDialog(this, "Password Must Be Atleast 8 Characters!");
-        } else {
-
-            if (registerAccount(fn.getText(), ln.getText(), email.getText(), username.getText(), pass.getText(), contact.getText())) {
-
-                String selectedUser = (String) asd.getSelectedItem();
-
-                if ("USER".equals(selectedUser)) {
-                    new User().setVisible(true);
-                    dispose();
-                } else if ("ADMIN".equals(selectedUser)) {
-                    new Admin().setVisible(true);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "ERROR: Invalid user type selected");
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Error!");
-            }
-        }
-
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void contactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_contactActionPerformed
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+        login login = new login();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel20MouseClicked
+
+    private void jLabel20MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel20MouseEntered
+
+    private void jLabel20AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel20AncestorAdded
+      
+    }//GEN-LAST:event_jLabel20AncestorAdded
+
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,6 +390,8 @@ public class registrationform extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
