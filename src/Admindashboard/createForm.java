@@ -124,12 +124,12 @@ public class createForm extends javax.swing.JFrame {
         us = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
-        fn2 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        add1 = new javax.swing.JButton();
-        add2 = new javax.swing.JButton();
-        add3 = new javax.swing.JButton();
-        add4 = new javax.swing.JButton();
+        t_id = new javax.swing.JTextField();
+        update = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
+        cancel = new javax.swing.JButton();
+        clear = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 204));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -392,53 +392,55 @@ public class createForm extends javax.swing.JFrame {
         jLabel37.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel37.setText("First Name:");
         jPanel1.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 30));
-        jPanel1.add(fn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 290, 30));
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton4.setText("UPDATE");
-        jButton4.setEnabled(false);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        t_id.setEnabled(false);
+        jPanel1.add(t_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 290, 30));
+
+        update.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        update.setText("UPDATE");
+        update.setEnabled(false);
+        update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                updateActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 110, 30));
+        jPanel1.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 110, 30));
 
-        add1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        add1.setText("DELETE");
-        add1.addActionListener(new java.awt.event.ActionListener() {
+        delete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        delete.setText("DELETE");
+        delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                add1ActionPerformed(evt);
+                deleteActionPerformed(evt);
             }
         });
-        jPanel1.add(add1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 440, 110, 30));
+        jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 440, 110, 30));
 
-        add2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        add2.setText("CANCEL");
-        add2.addActionListener(new java.awt.event.ActionListener() {
+        cancel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        cancel.setText("CANCEL");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                add2ActionPerformed(evt);
+                cancelActionPerformed(evt);
             }
         });
-        jPanel1.add(add2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 490, 110, 30));
+        jPanel1.add(cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 490, 110, 30));
 
-        add3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        add3.setText("CLEAR");
-        add3.addActionListener(new java.awt.event.ActionListener() {
+        clear.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        clear.setText("CLEAR");
+        clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                add3ActionPerformed(evt);
+                clearActionPerformed(evt);
             }
         });
-        jPanel1.add(add3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 490, 110, 30));
+        jPanel1.add(clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 490, 110, 30));
 
-        add4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        add4.setText("REFRESH");
-        add4.addActionListener(new java.awt.event.ActionListener() {
+        refresh.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        refresh.setText("REFRESH");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                add4ActionPerformed(evt);
+                refreshActionPerformed(evt);
             }
         });
-        jPanel1.add(add4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 490, 120, 30));
+        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 490, 120, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -483,7 +485,7 @@ public class createForm extends javax.swing.JFrame {
 
             if(DBConnector.insertData("INSERT INTO rent (t_fn, t_ln, t_email, t_username, t_pass, t_contact, t_type, t_status) VALUES ('" + fn.getText() + "', '" + ln.getText() + "', '" + email.getText() + "', '" + username.getText() + "', '" + pass.getText() + "', '" + contact.getText() + "', '" + asd.getSelectedItem() + "','"+us.getSelectedItem()+"')"))
         {
-            JOptionPane.showMessageDialog(null,"Inserted Successfully!");
+            JOptionPane.showMessageDialog(null,"Registred Successfully!");
             setVisible(false);
             UserForm UserForm = new UserForm();
             UserForm.setVisible(true);
@@ -521,25 +523,27 @@ public class createForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_us1ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_updateActionPerformed
 
-    private void add1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add1ActionPerformed
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_add1ActionPerformed
+    }//GEN-LAST:event_deleteActionPerformed
 
-    private void add2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_add2ActionPerformed
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+       UserForm UserForm = new UserForm();
+       UserForm.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_cancelActionPerformed
 
-    private void add3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add3ActionPerformed
+    private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_add3ActionPerformed
+    }//GEN-LAST:event_clearActionPerformed
 
-    private void add4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add4ActionPerformed
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_add4ActionPerformed
+    }//GEN-LAST:event_refreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -578,22 +582,19 @@ public class createForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add;
-    private javax.swing.JButton add1;
-    private javax.swing.JButton add2;
-    private javax.swing.JButton add3;
-    private javax.swing.JButton add4;
+    public javax.swing.JButton add;
     public javax.swing.JComboBox<String> asd;
     private javax.swing.JComboBox<String> asd1;
+    private javax.swing.JButton cancel;
+    private javax.swing.JButton clear;
     public javax.swing.JTextField contact;
     private javax.swing.JTextField contact1;
+    private javax.swing.JButton delete;
     public javax.swing.JTextField email;
     private javax.swing.JTextField email1;
     public javax.swing.JTextField fn;
     private javax.swing.JTextField fn1;
-    public javax.swing.JTextField fn2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -639,6 +640,9 @@ public class createForm extends javax.swing.JFrame {
     private javax.swing.JTextField ln1;
     public javax.swing.JTextField pass;
     private javax.swing.JTextField pass1;
+    private javax.swing.JButton refresh;
+    public javax.swing.JTextField t_id;
+    public javax.swing.JButton update;
     public javax.swing.JComboBox<String> us;
     private javax.swing.JComboBox<String> us1;
     public javax.swing.JTextField username;

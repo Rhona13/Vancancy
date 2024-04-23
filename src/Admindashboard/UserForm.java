@@ -10,6 +10,8 @@ import Config.Session;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -66,6 +68,8 @@ public class UserForm extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         p_add = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        p_edit = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -123,6 +127,9 @@ public class UserForm extends javax.swing.JFrame {
 
         p_add.setBackground(new java.awt.Color(255, 0, 102));
         p_add.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p_addMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 p_addMouseEntered(evt);
             }
@@ -136,9 +143,31 @@ public class UserForm extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("ADD");
         p_add.add(jLabel6);
-        jLabel6.setBounds(80, 0, 54, 29);
+        jLabel6.setBounds(70, 0, 60, 29);
 
         jPanel1.add(p_add, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 210, 30));
+
+        p_edit.setBackground(new java.awt.Color(255, 0, 102));
+        p_edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p_editMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                p_editMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                p_editMouseExited(evt);
+            }
+        });
+        p_edit.setLayout(null);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("EDIT");
+        p_edit.add(jLabel7);
+        jLabel7.setBounds(62, 0, 79, 31);
+
+        jPanel1.add(p_edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 210, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,6 +202,53 @@ public class UserForm extends javax.swing.JFrame {
     private void p_addMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseExited
         p_add.setBackground(navcolor);
     }//GEN-LAST:event_p_addMouseExited
+
+    private void p_editMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseEntered
+        p_edit.setBackground(hovercolor);
+    }//GEN-LAST:event_p_editMouseEntered
+
+    private void p_editMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseExited
+         p_edit.setBackground(navcolor);
+    }//GEN-LAST:event_p_editMouseExited
+
+    private void p_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseClicked
+        createForm createForm = new createForm();
+        createForm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_p_addMouseClicked
+
+    private void p_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseClicked
+        int rowIndex = UsersTable.getSelectedRow();
+        
+        if(rowIndex <0){
+            JOptionPane.showMessageDialog(null,"Please Select an Item!");
+           }else{
+            try{
+                DBConnector DBConnector = new DBConnector ();
+                TableModel tbl = UsersTable.getModel();
+                ResultSet rs = DBConnector.getData("SELECT * FROM rent WHERE t_id = '"+tbl.getValueAt(rowIndex, 0)+"'");
+                if(rs.next()){
+                     createForm createForm = new createForm ();
+                     createForm.t_id.setText(""+rs.getInt("t_id"));
+                     createForm.fn.setText(""+rs.getString("t_fn"));
+                     createForm.ln.setText(""+rs.getString("t_ln"));
+                     createForm.email.setText(""+rs.getString("t_email"));
+                     createForm.username.setText(""+rs.getString("t_username"));
+                     createForm.pass.setText(""+rs.getString("t_pass"));
+                     createForm.contact.setText(""+rs.getString("t_contact"));
+                     createForm.asd.setSelectedItem(""+rs.getString("t_type"));
+                     createForm.us.setSelectedItem(""+rs.getString("t_status"));
+                     createForm.add.setEnabled(false);
+                     createForm.update.setEnabled(true);
+                      createForm.setVisible(true);
+                      this.dispose();
+                      
+                }
+            }catch (SQLException ex){
+                System.out.println(""+ex);
+            }
+        }
+    }//GEN-LAST:event_p_editMouseClicked
 
     /**
      * @param args the command line arguments
@@ -218,11 +294,13 @@ public class UserForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel p_add;
+    private javax.swing.JPanel p_edit;
     // End of variables declaration//GEN-END:variables
 }
