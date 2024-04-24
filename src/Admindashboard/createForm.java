@@ -6,7 +6,9 @@
 package Admindashboard;
 
 import Config.DBConnector;
+import Config.passwordHasher;
 import Login.login;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -30,6 +32,37 @@ public class createForm extends javax.swing.JFrame {
               DBConnector DBConnector = new DBConnector();
         try{
         String query = "SELECT * FROM rent WHERE t_username = '" + username.getText()+ "' OR t_email = '" + email.getText()+ "'";
+
+        ResultSet resultSet = DBConnector .getData(query);
+ 
+        if(resultSet.next()){
+        em= resultSet.getString("t_email"); 
+           if(em.equals(email.getText())){
+                JOptionPane.showMessageDialog(null, "Email Already Exist!"); 
+                 email.setText("");
+                 }
+        usname = resultSet.getString("t_username");
+          if(usname.equals(username.getText())){
+                JOptionPane.showMessageDialog(null, "Username Already Exist!"); 
+                username.setText("");
+            }
+        return true;
+
+        }else{
+        return false;
+        }
+        }catch(SQLException ex){
+        System.out.println(""+ex);
+        return false;
+         }
+         }
+          
+           public boolean updateCheck(){
+ 
+              DBConnector DBConnector = new DBConnector();
+        try{
+      String query = "SELECT * FROM rent WHERE (t_username = '" + username.getText() + "' OR t_email = '" + email.getText() + "') AND t_id != '" + t_id.getText() + "'";
+
 
         ResultSet resultSet = DBConnector .getData(query);
  
@@ -101,7 +134,7 @@ public class createForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        pass = new javax.swing.JTextField();
+        ps = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -288,12 +321,12 @@ public class createForm extends javax.swing.JFrame {
         jLabel8.setText("Contact:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 70, 27));
 
-        pass.addActionListener(new java.awt.event.ActionListener() {
+        ps.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passActionPerformed(evt);
+                psActionPerformed(evt);
             }
         });
-        jPanel1.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 240, 290, 30));
+        jPanel1.add(ps, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 240, 290, 30));
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
         jPanel2.setLayout(null);
@@ -377,7 +410,7 @@ public class createForm extends javax.swing.JFrame {
         jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 290, 30));
 
         us.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        us.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Pending", " " }));
+        us.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Pending" }));
         us.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usActionPerformed(evt);
@@ -457,9 +490,9 @@ public class createForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
+    private void psActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_passActionPerformed
+    }//GEN-LAST:event_psActionPerformed
 
     private void contactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactActionPerformed
         // TODO add your handling code here:
@@ -471,19 +504,23 @@ public class createForm extends javax.swing.JFrame {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         if(fn.getText().isEmpty() || ln.getText().isEmpty() || email.getText().isEmpty()
-            || username.getText().isEmpty() || pass.getText().isEmpty() ||  contact.getText().isEmpty()  ){
+            || username.getText().isEmpty() || ps.getText().isEmpty() ||  contact.getText().isEmpty()  ){
             JOptionPane.showMessageDialog(null, "All fields are required!");
 
-        }else if(pass.getText().length() < 8){
+        }else if(ps.getText().length() < 8){
             JOptionPane.showMessageDialog(null, "Password character should be 8 above");
-            pass.setText("");
+            ps.setText("");
 
         }else if(duplicateCheck()){
             System.out.println("Duplicate Exist!");
         }else {
             DBConnector DBConnector = new DBConnector();
 
-            if(DBConnector.insertData("INSERT INTO rent (t_fn, t_ln, t_email, t_username, t_pass, t_contact, t_type, t_status) VALUES ('" + fn.getText() + "', '" + ln.getText() + "', '" + email.getText() + "', '" + username.getText() + "', '" + pass.getText() + "', '" + contact.getText() + "', '" + asd.getSelectedItem() + "','"+us.getSelectedItem()+"')"))
+            try{
+                 String pass = passwordHasher.hashPassword(ps.getText());
+            
+            if(DBConnector.insertData("INSERT INTO rent (t_fn, t_ln, t_email, t_username, t_pass, t_contact, t_type, t_status) VALUES"
+                    + " ('" + fn.getText() + "', '" + ln.getText() + "', '" + email.getText() + "', '" + username.getText() + "', '" + pass + "', '" + contact.getText() + "', '" + asd.getSelectedItem() + "','"+us.getSelectedItem()+"')"))
         {
             JOptionPane.showMessageDialog(null,"Registred Successfully!");
             setVisible(false);
@@ -494,8 +531,10 @@ public class createForm extends javax.swing.JFrame {
         }else{
 
             JOptionPane.showMessageDialog(null,"Connection Error!");
-        }
-        
+         }
+    } catch(NoSuchAlgorithmException ex) {
+        System.out.println(""+ex);
+    }
         }
     }//GEN-LAST:event_addActionPerformed
 
@@ -524,7 +563,29 @@ public class createForm extends javax.swing.JFrame {
     }//GEN-LAST:event_us1ActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-        // TODO add your handling code here:
+          if(fn.getText().isEmpty() || ln.getText().isEmpty() || email.getText().isEmpty()
+            || username.getText().isEmpty() || ps.getText().isEmpty() ||  contact.getText().isEmpty()  ){
+            JOptionPane.showMessageDialog(null, "All fields are required!");
+
+        }else if(ps.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "Password character should be 8 above");
+            ps.setText("");
+
+        }else if(updateCheck()){
+            System.out.println("Duplicate Exist!");
+        }else{
+        DBConnector DBConnector = new DBConnector ();
+        
+        DBConnector.updateData ("UPDATE rent SET t_fn = '" + fn.getText() + "', t_ln = '" + ln.getText() + "', " +
+               "t_email = '" + email.getText() + "', t_username = '" + username.getText() + "', " +
+               "t_pass = '" + ps.getText() + "', t_contact = '" + contact.getText() + "', " +
+               "t_type = '" + asd.getSelectedItem() + "', t_status = '" + us.getSelectedItem() + "' WHERE t_id = '" + t_id.getText()+ "' ");
+      
+            setVisible(false);
+            UserForm UserForm = new UserForm();
+            UserForm.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_updateActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
@@ -638,8 +699,8 @@ public class createForm extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     public javax.swing.JTextField ln;
     private javax.swing.JTextField ln1;
-    public javax.swing.JTextField pass;
     private javax.swing.JTextField pass1;
+    public javax.swing.JTextField ps;
     private javax.swing.JButton refresh;
     public javax.swing.JTextField t_id;
     public javax.swing.JButton update;

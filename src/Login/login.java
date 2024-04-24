@@ -8,8 +8,10 @@ package Login;
 import Admindashboard.Admin;
 import Config.DBConnector;
 import Config.Session;
+import Config.passwordHasher;
 import Registration.registrationform;
 import User.UserDash;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -35,10 +37,17 @@ public class login extends javax.swing.JFrame {
     public static boolean loginAcc(String username, String password){
         DBConnector connector = new DBConnector();
         try{
-            String query = "SELECT * FROM rent  WHERE t_username = '" + username + "' AND t_pass = '" + password + "'";
+            String query = "SELECT * FROM rent  WHERE t_username = '" + username + "'";
             ResultSet resultSet = connector.getData(query);
 
                 if(resultSet.next()){
+                    
+                    String hashedPass = resultSet.getString("t_pass");
+                    String rehashedPass = passwordHasher.hashPassword(password);
+                    
+                    System.out.println(""+hashedPass);
+                    System.out.println(""+rehashedPass);
+                    if(hashedPass.equals(rehashedPass)){
                 status= resultSet.getString("t_status");
                 type= resultSet.getString("t_type");
                 Session sess = Session.getInstance();
@@ -55,7 +64,11 @@ public class login extends javax.swing.JFrame {
             }else{
                 return false;
             }
-        }catch (SQLException ex) {
+                   }else{
+                return false;
+            }
+        }catch (SQLException | NoSuchAlgorithmException ex) {
+            System.out.println(""+ex);
             return false;
         }
 

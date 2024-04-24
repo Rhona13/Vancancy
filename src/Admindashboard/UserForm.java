@@ -33,7 +33,7 @@ public class UserForm extends javax.swing.JFrame {
         public void displayData(){
         try{
             DBConnector DBConnector = new DBConnector();
-            ResultSet rs = DBConnector.getData("SELECT t_id,t_fn,t_ln,t_email,t_pass  FROM rent");
+            ResultSet rs = DBConnector.getData("SELECT t_id,t_fn,t_ln,t_email,t_pass,t_status FROM rent");
             UsersTable.setModel(DbUtils.resultSetToTableModel(rs));
              rs.close();
         }catch(SQLException ex){
@@ -234,7 +234,7 @@ public class UserForm extends javax.swing.JFrame {
                      createForm.ln.setText(""+rs.getString("t_ln"));
                      createForm.email.setText(""+rs.getString("t_email"));
                      createForm.username.setText(""+rs.getString("t_username"));
-                     createForm.pass.setText(""+rs.getString("t_pass"));
+                     createForm.ps.setText(""+rs.getString("t_pass"));
                      createForm.contact.setText(""+rs.getString("t_contact"));
                      createForm.asd.setSelectedItem(""+rs.getString("t_type"));
                      createForm.us.setSelectedItem(""+rs.getString("t_status"));
