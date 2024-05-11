@@ -27,23 +27,21 @@ public class UserForm extends javax.swing.JFrame {
         initComponents();
         displayData();
     }
-        Color navcolor = new Color(255,0,102);
-        Color hovercolor = new Color(255,204,255);
-        
-        public void displayData(){
-        try{
+    Color navcolor = new Color(255, 0, 102);
+    Color hovercolor = new Color(255, 204, 255);
+
+    public void displayData() {
+        try {
             DBConnector DBConnector = new DBConnector();
             ResultSet rs = DBConnector.getData("SELECT t_id,t_fn,t_ln,t_email,t_pass,t_status FROM rent");
             UsersTable.setModel(DbUtils.resultSetToTableModel(rs));
-             rs.close();
-        }catch(SQLException ex){
-            System.out.println("Errors: "+ex.getMessage());
-        
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+
         }
-        
-    
+
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,6 +57,7 @@ public class UserForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         UsersTable = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -86,9 +85,10 @@ public class UserForm extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(UsersTable);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 580, 360));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 490, 360));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("BACK");
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -96,9 +96,13 @@ public class UserForm extends javax.swing.JFrame {
                 jLabel3MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 10, 70, 30));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 70, 30));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 650, 430));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/PINK.png"))); // NOI18N
+        jLabel8.setText("jLabel8");
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(-210, -100, 770, 530));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 560, 430));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 210, 10));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -173,7 +177,9 @@ public class UserForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,14 +191,14 @@ public class UserForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-            Admin Admin = new Admin();
-            Admin.setVisible(true);
-            this.dispose();
+        Admin Admin = new Admin();
+        Admin.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Session sess = Session.getInstance();
-        acc_id.setText(""+sess.getId());
+        acc_id.setText("" + sess.getId());
     }//GEN-LAST:event_formWindowActivated
 
     private void p_addMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseEntered
@@ -208,44 +214,57 @@ public class UserForm extends javax.swing.JFrame {
     }//GEN-LAST:event_p_editMouseEntered
 
     private void p_editMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseExited
-         p_edit.setBackground(navcolor);
+        p_edit.setBackground(navcolor);
     }//GEN-LAST:event_p_editMouseExited
 
     private void p_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseClicked
         createForm createForm = new createForm();
         createForm.setVisible(true);
+        createForm.remove.setEnabled(false);
+        createForm.select.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_p_addMouseClicked
 
     private void p_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseClicked
         int rowIndex = UsersTable.getSelectedRow();
-        
-        if(rowIndex <0){
-            JOptionPane.showMessageDialog(null,"Please Select an Item!");
-           }else{
-            try{
-                DBConnector DBConnector = new DBConnector ();
+
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+        } else {
+            try {
+                DBConnector DBConnector = new DBConnector();
                 TableModel tbl = UsersTable.getModel();
-                ResultSet rs = DBConnector.getData("SELECT * FROM rent WHERE t_id = '"+tbl.getValueAt(rowIndex, 0)+"'");
-                if(rs.next()){
-                     createForm createForm = new createForm ();
-                     createForm.t_id.setText(""+rs.getInt("t_id"));
-                     createForm.fn.setText(""+rs.getString("t_fn"));
-                     createForm.ln.setText(""+rs.getString("t_ln"));
-                     createForm.email.setText(""+rs.getString("t_email"));
-                     createForm.username.setText(""+rs.getString("t_username"));
-                     createForm.ps.setText(""+rs.getString("t_pass"));
-                     createForm.contact.setText(""+rs.getString("t_contact"));
-                     createForm.asd.setSelectedItem(""+rs.getString("t_type"));
-                     createForm.us.setSelectedItem(""+rs.getString("t_status"));
-                     createForm.add.setEnabled(false);
-                     createForm.update.setEnabled(true);
-                      createForm.setVisible(true);
-                      this.dispose();
-                      
+                ResultSet rs = DBConnector.getData("SELECT * FROM rent WHERE t_id = '" + tbl.getValueAt(rowIndex, 0) + "'");
+                if (rs.next()) {
+                    createForm createForm = new createForm();
+                    createForm.t_id.setText("" + rs.getInt("t_id"));
+                    createForm.fn.setText("" + rs.getString("t_fn"));
+                    createForm.ln.setText("" + rs.getString("t_ln"));
+                    createForm.email.setText("" + rs.getString("t_email"));
+                    createForm.username.setText("" + rs.getString("t_username"));
+                    createForm.ps.setText("" + rs.getString("t_pass"));
+                    createForm.contact.setText("" + rs.getString("t_contact"));
+                    createForm.asd.setSelectedItem("" + rs.getString("t_type"));
+                    createForm.us.setSelectedItem("" + rs.getString("t_status"));
+                    createForm.image.setIcon(createForm.ResizeImage(rs.getString("t_image"), null , createForm.image));
+                    createForm.oldpath = rs.getString("t_image");
+                    createForm.path = rs.getString("t_image");
+                    createForm.destination = rs.getString("t_image");
+                    createForm.add.setEnabled(false);
+                    createForm.update.setEnabled(true);
+                    createForm.setVisible(true);
+                    
+                    if(rs.getString("t_image").isEmpty()){
+                        createForm.select.setEnabled(true);
+                        createForm.remove.setEnabled(false);
+                    }else{
+                        createForm.select.setEnabled(false);
+                        createForm.remove.setEnabled(true);
+                    }
+                    this.dispose();
                 }
-            }catch (SQLException ex){
-                System.out.println(""+ex);
+            } catch (SQLException ex) {
+                System.out.println("" + ex);
             }
         }
     }//GEN-LAST:event_p_editMouseClicked
@@ -295,6 +314,7 @@ public class UserForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

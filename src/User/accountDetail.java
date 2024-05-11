@@ -68,6 +68,7 @@ public  class accountDetail extends javax.swing.JFrame {
         idDisplay = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         acc_fn = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -87,12 +88,12 @@ public  class accountDetail extends javax.swing.JFrame {
         jPanel2.add(jLabel2);
         jLabel2.setBounds(10, 10, 100, 100);
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 120, 120));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 120, 120));
 
         acc_ln.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         acc_ln.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acc_ln.setText("User");
-        jPanel1.add(acc_ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 90, -1));
+        jPanel1.add(acc_ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 90, -1));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("LOGOUT");
@@ -101,25 +102,27 @@ public  class accountDetail extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 430, 80, 30));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 80, 30));
 
-        jPanel3.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel3.setBackground(new java.awt.Color(255, 204, 204,30));
+        jPanel3.setForeground(new java.awt.Color(255, 0, 153));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel5.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel5.setBackground(new java.awt.Color(255, 204, 204,200));
+        jPanel5.setForeground(new java.awt.Color(204, 0, 102));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("First Name:");
-        jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 30));
+        jPanel5.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Last Name:");
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 30));
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 30));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setText("Email:");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 60, 30));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 60, 30));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -129,15 +132,15 @@ public  class accountDetail extends javax.swing.JFrame {
                 jLabel8MouseClicked(evt);
             }
         });
-        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 160, 30));
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 270, 160, 30));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Username:");
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, 27));
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 27));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Contact:");
-        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 70, 27));
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 70, 27));
 
         jPanel6.setBackground(new java.awt.Color(255, 204, 204));
         jPanel6.setLayout(null);
@@ -185,15 +188,15 @@ public  class accountDetail extends javax.swing.JFrame {
         jTextField2.setBounds(120, 90, 170, 30);
 
         jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
-        jPanel5.add(fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 290, 30));
-        jPanel5.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 290, 30));
+        jPanel5.add(fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 290, 30));
+        jPanel5.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 290, 30));
 
         contact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 contactActionPerformed(evt);
             }
         });
-        jPanel5.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 290, 30));
+        jPanel5.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 290, 30));
 
         asd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         asd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
@@ -202,18 +205,18 @@ public  class accountDetail extends javax.swing.JFrame {
                 asdActionPerformed(evt);
             }
         });
-        jPanel5.add(asd, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 130, 30));
+        jPanel5.add(asd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 130, 30));
         jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
-        jPanel5.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 290, 30));
-        jPanel5.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 290, 30));
+        jPanel5.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 290, 30));
+        jPanel5.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 290, 30));
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel21.setText("Account Type:");
-        jPanel5.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 110, 30));
+        jPanel5.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 110, 30));
 
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 430, 410));
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 420, 310));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 470, 430));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 480, 480));
 
         jPanel4.setBackground(new java.awt.Color(204, 0, 102));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -238,7 +241,11 @@ public  class accountDetail extends javax.swing.JFrame {
         acc_fn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         acc_fn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acc_fn.setText("User");
-        jPanel1.add(acc_fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 90, -1));
+        jPanel1.add(acc_fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 90, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/PINK.png"))); // NOI18N
+        jLabel3.setText("jLabel3");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 640, 490));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -258,7 +265,7 @@ public  class accountDetail extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
             login lg = new login();
             JOptionPane.showMessageDialog(null, "Logged Out!"); 
-            lg.setVisible(true);
+            lg.setVisible(true); 
             this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -347,6 +354,7 @@ public  class accountDetail extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

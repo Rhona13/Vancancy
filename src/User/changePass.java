@@ -42,7 +42,11 @@ public  class changePass extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         acc_ln = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        acc_fn = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        idDisplay = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -65,11 +69,7 @@ public  class changePass extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        acc_fn = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        idDisplay = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -79,7 +79,7 @@ public  class changePass extends javax.swing.JFrame {
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 51, 153));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
         jPanel2.setLayout(null);
@@ -89,12 +89,15 @@ public  class changePass extends javax.swing.JFrame {
         jPanel2.add(jLabel2);
         jLabel2.setBounds(10, 10, 100, 100);
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 120, 120));
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(30, 80, 120, 120);
 
         acc_ln.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        acc_ln.setForeground(new java.awt.Color(255, 255, 255));
         acc_ln.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acc_ln.setText("User");
-        jPanel1.add(acc_ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 90, -1));
+        jPanel1.add(acc_ln);
+        acc_ln.setBounds(50, 250, 90, 29);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("LOGOUT");
@@ -103,12 +106,38 @@ public  class changePass extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, 80, 30));
+        jPanel1.add(jButton1);
+        jButton1.setBounds(60, 410, 80, 30);
 
-        jPanel3.setBackground(new java.awt.Color(255, 204, 204));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        acc_fn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        acc_fn.setForeground(new java.awt.Color(255, 255, 255));
+        acc_fn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        acc_fn.setText("User");
+        jPanel1.add(acc_fn);
+        acc_fn.setBounds(50, 210, 90, 29);
 
-        jPanel5.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel4.setBackground(new java.awt.Color(204, 0, 102));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 11, 84, -1));
+
+        idDisplay.setBackground(new java.awt.Color(255, 255, 255));
+        idDisplay.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        idDisplay.setForeground(new java.awt.Color(255, 255, 255));
+        idDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        idDisplay.setText("UID");
+        jPanel4.add(idDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 0, 150, 40));
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("CHANGE PASSWORD");
+        jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
+
+        jPanel1.add(jPanel4);
+        jPanel4.setBounds(0, 0, 710, 40);
+
+        jPanel5.setBackground(new java.awt.Color(255, 204, 204,160));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -198,6 +227,11 @@ public  class changePass extends javax.swing.JFrame {
         jPanel5.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, 90, 30));
 
         jPanel8.setBackground(new java.awt.Color(204, 0, 102));
+        jPanel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel8MouseClicked(evt);
+            }
+        });
         jPanel8.setLayout(null);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -209,44 +243,25 @@ public  class changePass extends javax.swing.JFrame {
 
         jPanel5.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 210, 90, 30));
 
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 450, 290));
+        jPanel1.add(jPanel5);
+        jPanel5.setBounds(190, 110, 480, 290);
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 480, 390));
-
-        acc_fn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        acc_fn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        acc_fn.setText("User");
-        jPanel1.add(acc_fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 90, -1));
-
-        jPanel4.setBackground(new java.awt.Color(204, 0, 102));
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel4.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(45, 11, 84, -1));
-
-        idDisplay.setBackground(new java.awt.Color(255, 255, 255));
-        idDisplay.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        idDisplay.setForeground(new java.awt.Color(255, 255, 255));
-        idDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        idDisplay.setText("UID");
-        jPanel4.add(idDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 150, 40));
-
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("CHANGE PASSWORD");
-        jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
-
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/PINK.png"))); // NOI18N
+        jLabel10.setText("jLabel10");
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(0, 40, 710, 430);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 704, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -301,6 +316,12 @@ public  class changePass extends javax.swing.JFrame {
     
     }//GEN-LAST:event_jPanel7MouseClicked
 
+    private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
+          accountDetail acd = new accountDetail();
+            acd.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_jPanel8MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -350,6 +371,7 @@ public  class changePass extends javax.swing.JFrame {
     private javax.swing.JLabel idDisplay;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -368,7 +390,6 @@ public  class changePass extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;

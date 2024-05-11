@@ -8,9 +8,21 @@ package Admindashboard;
 import Config.DBConnector;
 import Config.passwordHasher;
 import Login.login;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,6 +37,85 @@ public class createForm extends javax.swing.JFrame {
     public createForm() {
         initComponents();
     }
+    
+    public String destination = "";
+    File selectedFile;
+    public String oldpath;
+    public String path;
+    
+    public int FileExistenceChecker(String path){
+        File file = new File(path);
+        String fileName = file.getName();
+        
+        Path filePath = Paths.get("src/userImages", fileName);
+        boolean fileExists = Files.exists(filePath);
+        
+        if (fileExists) {
+            return 1;
+        } else {
+            return 0;
+        }
+    
+    }
+    public static int getHeightFromWidth(String imagePath, int desiredWidth) {
+        try {
+            // Read the image file
+            File imageFile = new File(imagePath);
+            BufferedImage image = ImageIO.read(imageFile);
+            
+            // Get the original width and height of the image
+            int originalWidth = image.getWidth();
+            int originalHeight = image.getHeight();
+            
+            // Calculate the new height based on the desired width and the aspect ratio
+            int newHeight = (int) ((double) desiredWidth / originalWidth * originalHeight);
+            
+            return newHeight;
+        } catch (IOException ex) {
+            System.out.println("No image found!");
+        }
+        
+        return -1;
+    }
+    public  ImageIcon ResizeImage(String ImagePath, byte[] pic, JLabel label) {
+    ImageIcon MyImage = null;
+        if(ImagePath !=null){
+            MyImage = new ImageIcon(ImagePath);
+        }else{
+            MyImage = new ImageIcon(pic);
+        }
+        
+    int newHeight = getHeightFromWidth(ImagePath, label.getWidth());
+
+    Image img = MyImage.getImage();
+    Image newImg = img.getScaledInstance(label.getWidth(), newHeight, Image.SCALE_SMOOTH);
+    ImageIcon image = new ImageIcon(newImg);
+    return image;
+   }
+    
+      public void imageUpdater(String existingFilePath, String newFilePath){
+        File existingFile = new File(existingFilePath);
+        if (existingFile.exists()) {
+            String parentDirectory = existingFile.getParent();
+            File newFile = new File(newFilePath);
+            String newFileName = newFile.getName();
+            File updatedFile = new File(parentDirectory, newFileName);
+            existingFile.delete();
+            try {
+                Files.copy(newFile.toPath(), updatedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Image updated successfully.");
+            } catch (IOException e) {
+                System.out.println("Error occurred while updating the image: "+e);
+            }
+        } else {
+            try{
+                Files.copy(selectedFile.toPath(), new File(destination).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }catch(IOException e){
+                System.out.println("Error on update!");
+            }
+        }
+   }
+
      public static String em, usname;
           
           public boolean duplicateCheck(){
@@ -127,6 +218,7 @@ public class createForm extends javax.swing.JFrame {
         username1 = new javax.swing.JTextField();
         us1 = new javax.swing.JComboBox<>();
         jLabel36 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -163,6 +255,12 @@ public class createForm extends javax.swing.JFrame {
         cancel = new javax.swing.JButton();
         clear = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
+        jLabel39 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        image = new javax.swing.JLabel();
+        select = new javax.swing.JButton();
+        remove = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 204));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -292,41 +390,52 @@ public class createForm extends javax.swing.JFrame {
         jLabel36.setText("Account Type:");
         jPanel3.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 110, 30));
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/PINK.png"))); // NOI18N
+        jLabel1.setText("CREATE FORM");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("User ID:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 30));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, 30));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Last Name:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, 30));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, 30));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Email:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 60, 30));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 90, 30));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("User Status:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 110, 30));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 170, 30));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Username:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, -1, 27));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, 30));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Contact:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 70, 27));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 130, 30));
 
+        ps.setEnabled(false);
         ps.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 psActionPerformed(evt);
             }
         });
-        jPanel1.add(ps, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 240, 290, 30));
+        jPanel1.add(ps, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 270, 290, 30));
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
         jPanel2.setLayout(null);
@@ -374,15 +483,15 @@ public class createForm extends javax.swing.JFrame {
         jTextField2.setBounds(120, 90, 170, 30);
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
-        jPanel1.add(fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 290, 30));
-        jPanel1.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 290, 30));
+        jPanel1.add(fn, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 290, 30));
+        jPanel1.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 290, 30));
 
         contact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 contactActionPerformed(evt);
             }
         });
-        jPanel1.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, 290, 30));
+        jPanel1.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 310, 290, 30));
 
         asd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         asd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
@@ -391,7 +500,7 @@ public class createForm extends javax.swing.JFrame {
                 asdActionPerformed(evt);
             }
         });
-        jPanel1.add(asd, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 120, 30));
+        jPanel1.add(asd, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 120, 30));
 
         add.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         add.setText("ADD");
@@ -400,14 +509,15 @@ public class createForm extends javax.swing.JFrame {
                 addActionPerformed(evt);
             }
         });
-        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, 90, 30));
+        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 470, 90, 30));
         jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Password:");
-        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, -1, 27));
-        jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 290, 30));
-        jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 290, 30));
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, 30));
+        jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 190, 290, 30));
+        jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 290, 30));
 
         us.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         us.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Pending" }));
@@ -416,18 +526,20 @@ public class createForm extends javax.swing.JFrame {
                 usActionPerformed(evt);
             }
         });
-        jPanel1.add(us, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, 120, 30));
+        jPanel1.add(us, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 410, 120, 30));
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Account Type:");
-        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 110, 30));
+        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 200, 30));
 
-        jLabel37.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel37.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 20)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(255, 255, 255));
         jLabel37.setText("First Name:");
-        jPanel1.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, 30));
+        jPanel1.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, 30));
 
         t_id.setEnabled(false);
-        jPanel1.add(t_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 290, 30));
+        jPanel1.add(t_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 290, 30));
 
         update.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         update.setText("UPDATE");
@@ -437,7 +549,7 @@ public class createForm extends javax.swing.JFrame {
                 updateActionPerformed(evt);
             }
         });
-        jPanel1.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 110, 30));
+        jPanel1.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 470, 110, 30));
 
         delete.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         delete.setText("DELETE");
@@ -446,7 +558,7 @@ public class createForm extends javax.swing.JFrame {
                 deleteActionPerformed(evt);
             }
         });
-        jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 440, 110, 30));
+        jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, 110, 30));
 
         cancel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         cancel.setText("CANCEL");
@@ -455,7 +567,7 @@ public class createForm extends javax.swing.JFrame {
                 cancelActionPerformed(evt);
             }
         });
-        jPanel1.add(cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 490, 110, 30));
+        jPanel1.add(cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 520, 110, 30));
 
         clear.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         clear.setText("CLEAR");
@@ -464,7 +576,7 @@ public class createForm extends javax.swing.JFrame {
                 clearActionPerformed(evt);
             }
         });
-        jPanel1.add(clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 490, 110, 30));
+        jPanel1.add(clear, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 520, 110, 30));
 
         refresh.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         refresh.setText("REFRESH");
@@ -473,74 +585,45 @@ public class createForm extends javax.swing.JFrame {
                 refreshActionPerformed(evt);
             }
         });
-        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 490, 120, 30));
+        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 520, 120, 30));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
-        );
+        jLabel39.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 36)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel39.setText("CREATE FORM");
+        jPanel1.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 350, 50));
+
+        jPanel5.setLayout(null);
+        jPanel5.add(image);
+        image.setBounds(10, 10, 240, 190);
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 260, 210));
+
+        select.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        select.setText("SELECT");
+        select.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectActionPerformed(evt);
+            }
+        });
+        jPanel1.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 360, 120, 30));
+
+        remove.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        remove.setText("REMOVE");
+        remove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(remove, new org.netbeans.lib.awtextra.AbsoluteConstraints(669, 360, 120, 30));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/PINK.png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 580));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 580));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void psActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_psActionPerformed
-
-    private void contactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_contactActionPerformed
-
-    private void asdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_asdActionPerformed
-
-    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        if(fn.getText().isEmpty() || ln.getText().isEmpty() || email.getText().isEmpty()
-            || username.getText().isEmpty() || ps.getText().isEmpty() ||  contact.getText().isEmpty()  ){
-            JOptionPane.showMessageDialog(null, "All fields are required!");
-
-        }else if(ps.getText().length() < 8){
-            JOptionPane.showMessageDialog(null, "Password character should be 8 above");
-            ps.setText("");
-
-        }else if(duplicateCheck()){
-            System.out.println("Duplicate Exist!");
-        }else {
-            DBConnector DBConnector = new DBConnector();
-
-            try{
-                 String pass = passwordHasher.hashPassword(ps.getText());
-            
-            if(DBConnector.insertData("INSERT INTO rent (t_fn, t_ln, t_email, t_username, t_pass, t_contact, t_type, t_status) VALUES"
-                    + " ('" + fn.getText() + "', '" + ln.getText() + "', '" + email.getText() + "', '" + username.getText() + "', '" + pass + "', '" + contact.getText() + "', '" + asd.getSelectedItem() + "','"+us.getSelectedItem()+"')"))
-        {
-            JOptionPane.showMessageDialog(null,"Registred Successfully!");
-            setVisible(false);
-            UserForm UserForm = new UserForm();
-            UserForm.setVisible(true);
-            this.dispose();
-
-        }else{
-
-            JOptionPane.showMessageDialog(null,"Connection Error!");
-         }
-    } catch(NoSuchAlgorithmException ex) {
-        System.out.println(""+ex);
-    }
-        }
-    }//GEN-LAST:event_addActionPerformed
-
-    private void usActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usActionPerformed
 
     private void pass1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass1ActionPerformed
         // TODO add your handling code here:
@@ -562,8 +645,36 @@ public class createForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_us1ActionPerformed
 
+    private void removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeActionPerformed
+        remove.setEnabled(false);
+        select.setEnabled(true);
+        image.setIcon(null);
+        destination = "";
+        path = "";
+        
+        
+    }//GEN-LAST:event_removeActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_refreshActionPerformed
+
+    private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearActionPerformed
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+        UserForm UserForm = new UserForm();
+        UserForm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_cancelActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteActionPerformed
+
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-          if(fn.getText().isEmpty() || ln.getText().isEmpty() || email.getText().isEmpty()
+        if(fn.getText().isEmpty() || ln.getText().isEmpty() || email.getText().isEmpty()
             || username.getText().isEmpty() || ps.getText().isEmpty() ||  contact.getText().isEmpty()  ){
             JOptionPane.showMessageDialog(null, "All fields are required!");
 
@@ -574,13 +685,25 @@ public class createForm extends javax.swing.JFrame {
         }else if(updateCheck()){
             System.out.println("Duplicate Exist!");
         }else{
-        DBConnector DBConnector = new DBConnector ();
-        
-        DBConnector.updateData ("UPDATE rent SET t_fn = '" + fn.getText() + "', t_ln = '" + ln.getText() + "', " +
-               "t_email = '" + email.getText() + "', t_username = '" + username.getText() + "', " +
-               "t_pass = '" + ps.getText() + "', t_contact = '" + contact.getText() + "', " +
-               "t_type = '" + asd.getSelectedItem() + "', t_status = '" + us.getSelectedItem() + "' WHERE t_id = '" + t_id.getText()+ "' ");
-      
+            DBConnector DBConnector = new DBConnector ();
+
+            DBConnector.updateData ("UPDATE rent SET t_fn = '" + fn.getText() + "', t_ln = '" + ln.getText() + "', " +
+                "t_email = '" + email.getText() + "', t_username = '" + username.getText() + "', " +
+                "t_pass = '" + ps.getText() + "', t_contact = '" + contact.getText() + "', " +
+                "t_type = '" + asd.getSelectedItem() + "', t_status = '" + us.getSelectedItem() + "', t_image = '"+destination+"' WHERE t_id = '" + t_id.getText()+ "' ");
+            
+            if(destination.isEmpty()){
+                File existingFile = new File(oldpath);
+                if(existingFile.exists()){
+                    existingFile.delete();
+                }
+            }else{
+                if(!(oldpath.equals(path))){
+                    imageUpdater(oldpath,path);
+                }
+            }
+            
+            
             setVisible(false);
             UserForm UserForm = new UserForm();
             UserForm.setVisible(true);
@@ -588,23 +711,88 @@ public class createForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_updateActionPerformed
 
-    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+    private void usActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteActionPerformed
+    }//GEN-LAST:event_usActionPerformed
 
-    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
-       UserForm UserForm = new UserForm();
-       UserForm.setVisible(true);
-       this.dispose();
-    }//GEN-LAST:event_cancelActionPerformed
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        if(fn.getText().isEmpty() || ln.getText().isEmpty() || email.getText().isEmpty()
+            || username.getText().isEmpty() || ps.getText().isEmpty() ||  contact.getText().isEmpty()  ){
+            JOptionPane.showMessageDialog(null, "All fields are required!");
 
-    private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
+        }else if(ps.getText().length() < 8){
+            JOptionPane.showMessageDialog(null, "Password should be 8 character above");
+            ps.setText("");
+
+        }else if(duplicateCheck()){
+            System.out.println("Duplicate Exist!");
+        }else {
+            DBConnector DBConnector = new DBConnector();
+
+            try{
+                String pass = passwordHasher.hashPassword(ps.getText());
+
+                if(DBConnector.insertData("INSERT INTO rent (t_fn, t_ln, t_email, t_username, t_pass, t_contact, t_type, t_status, t_image) VALUES"
+                    + " ('" + fn.getText() + "', '" + ln.getText() + "', '" + email.getText() + "', '" + username.getText() + "', '" + pass + "', '" + contact.getText() + "', '" + asd.getSelectedItem() + "','"+us.getSelectedItem()+"','"+destination+"')"))
+            {
+                try{
+                Files.copy(selectedFile.toPath(), new File(destination).toPath(), StandardCopyOption.REPLACE_EXISTING);    
+                JOptionPane.showMessageDialog(null,"Added Successfully!");
+                setVisible(false);
+                UserForm UserForm = new UserForm();
+                UserForm.setVisible(true);
+                this.dispose();
+                }catch(IOException ex){
+                    System.out.println("Insert Image Error:"+ex);
+                }
+
+            }else{
+
+                JOptionPane.showMessageDialog(null,"Connection Error!");
+            }
+        } catch(NoSuchAlgorithmException ex) {
+            System.out.println(""+ex);
+        }
+        }
+    }//GEN-LAST:event_addActionPerformed
+
+    private void asdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_clearActionPerformed
+    }//GEN-LAST:event_asdActionPerformed
 
-    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+    private void contactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_refreshActionPerformed
+    }//GEN-LAST:event_contactActionPerformed
+
+    private void psActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_psActionPerformed
+
+    private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
+       JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        selectedFile = fileChooser.getSelectedFile();
+                        destination = "src/userImages/" + selectedFile.getName();
+                        path  = selectedFile.getAbsolutePath();
+                        
+                        
+                        if(FileExistenceChecker(path) == 1){
+                          JOptionPane.showMessageDialog(null, "File Already Exist, Rename or Choose another!");
+                            destination = "";
+                            path="";
+                        }else{
+                            image.setIcon(ResizeImage(path, null, image));
+                            select.setEnabled(false);
+                            remove.setEnabled(true);
+                        }
+                    } catch (Exception ex) {
+                        System.out.println("File Error!"); 
+                    }
+                }
+
+    }//GEN-LAST:event_selectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -646,16 +834,18 @@ public class createForm extends javax.swing.JFrame {
     public javax.swing.JButton add;
     public javax.swing.JComboBox<String> asd;
     private javax.swing.JComboBox<String> asd1;
-    private javax.swing.JButton cancel;
-    private javax.swing.JButton clear;
+    public javax.swing.JButton cancel;
+    public javax.swing.JButton clear;
     public javax.swing.JTextField contact;
     private javax.swing.JTextField contact1;
-    private javax.swing.JButton delete;
+    public javax.swing.JButton delete;
     public javax.swing.JTextField email;
     private javax.swing.JTextField email1;
     public javax.swing.JTextField fn;
     private javax.swing.JTextField fn1;
+    public javax.swing.JLabel image;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -666,6 +856,7 @@ public class createForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -685,6 +876,7 @@ public class createForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -695,13 +887,16 @@ public class createForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     public javax.swing.JTextField ln;
     private javax.swing.JTextField ln1;
     private javax.swing.JTextField pass1;
     public javax.swing.JTextField ps;
-    private javax.swing.JButton refresh;
+    public javax.swing.JButton refresh;
+    public javax.swing.JButton remove;
+    public javax.swing.JButton select;
     public javax.swing.JTextField t_id;
     public javax.swing.JButton update;
     public javax.swing.JComboBox<String> us;
