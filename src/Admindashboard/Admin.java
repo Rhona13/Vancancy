@@ -7,6 +7,7 @@ package Admindashboard;
 
 import Config.Session;
 import Login.login;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,6 +20,9 @@ public class Admin extends javax.swing.JFrame {
         initComponents();
 
     }
+     Color navcolor = new Color(255, 204, 255);
+    Color hovercolor = new Color(255, 0, 102);
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,21 +39,6 @@ public class Admin extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         acc_name = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
@@ -58,6 +47,15 @@ public class Admin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
+        dash = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        tenant = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        payments = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        userAcc = new javax.swing.JPanel();
+        house = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -100,98 +98,17 @@ public class Admin extends javax.swing.JFrame {
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-users-94 (1).png"))); // NOI18N
         jPanel10.add(jLabel11);
-        jLabel11.setBounds(30, 30, 120, 80);
+        jLabel11.setBounds(20, 30, 120, 80);
 
-        jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 170, 150));
+        jPanel3.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 170, 150));
 
-        jPanel4.setBackground(new java.awt.Color(255, 102, 204));
-        jPanel4.setLayout(null);
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("MY PLAN");
-        jPanel4.add(jLabel5);
-        jLabel5.setBounds(0, 110, 170, 40);
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-what-i-do-100.png"))); // NOI18N
-        jPanel4.add(jLabel9);
-        jLabel9.setBounds(30, 10, 110, 110);
-
-        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, 170, 150));
-
-        jPanel7.setBackground(new java.awt.Color(255, 102, 204));
-        jPanel7.setLayout(null);
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 23)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("RENTER LIST");
-        jPanel7.add(jLabel2);
-        jLabel2.setBounds(0, 110, 170, 40);
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-rental-house-contract-100.png"))); // NOI18N
-        jPanel7.add(jLabel7);
-        jLabel7.setBounds(30, 10, 120, 110);
-
-        jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 170, 150));
-
-        jPanel5.setBackground(new java.awt.Color(255, 102, 204));
-        jPanel5.setLayout(null);
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("MY PROPERTY");
-        jPanel5.add(jLabel6);
-        jLabel6.setBounds(0, 110, 170, 40);
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-hotel-location-100.png"))); // NOI18N
-        jPanel5.add(jLabel8);
-        jLabel8.setBounds(40, 0, 110, 120);
-
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 170, 150));
-
-        jPanel6.setBackground(new java.awt.Color(204, 0, 102));
-        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jPanel6.setLayout(null);
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jPanel9.setLayout(null);
-
-        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("MY CALENDAR");
-        jPanel9.add(jLabel3);
-        jLabel3.setBounds(0, 0, 160, 40);
-
-        jPanel6.add(jPanel9);
-        jPanel9.setBounds(0, 0, 0, 0);
-
-        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jPanel12.setLayout(null);
-
-        jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("MY CALENDAR");
-        jPanel12.add(jLabel13);
-        jLabel13.setBounds(0, 0, 160, 40);
-
-        jPanel6.add(jPanel12);
-        jPanel12.setBounds(0, 0, 160, 40);
-
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 30, 160, 340));
-
-        jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("9:30 AM");
-        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 380, 170, 50));
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 940, 660));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 940, 630));
 
         acc_name.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         acc_name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acc_name.setText("ADMIN");
-        jPanel1.add(acc_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 90, 30));
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 260, 20));
+        jPanel1.add(acc_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 90, 30));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 260, 20));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("LOGOUT");
@@ -205,19 +122,19 @@ public class Admin extends javax.swing.JFrame {
         acc_lname.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         acc_lname.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acc_lname.setText("ADMIN");
-        jPanel1.add(acc_lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, 90, 30));
+        jPanel1.add(acc_lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, 90, 30));
 
         jPanel11.setBackground(new java.awt.Color(204, 0, 102));
         jPanel11.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("ADMIN DASHBOARD");
+        jLabel1.setText("Vacancy Vista Management System");
         jPanel11.add(jLabel1);
-        jLabel1.setBounds(0, 0, 304, 40);
+        jLabel1.setBounds(300, 10, 690, 40);
 
-        jPanel1.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 40));
+        jPanel1.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 70));
 
         jPanel8.setBackground(new java.awt.Color(255, 204, 204));
         jPanel8.setLayout(null);
@@ -226,13 +143,114 @@ public class Admin extends javax.swing.JFrame {
         jPanel8.add(jLabel12);
         jLabel12.setBounds(20, 0, 110, 110);
 
-        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 140, 110));
+        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 140, 110));
+
+        dash.setBackground(new java.awt.Color(255, 0, 102));
+        dash.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dashMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                dashMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                dashMouseExited(evt);
+            }
+        });
+        dash.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Dashboard");
+        dash.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 60));
+
+        jPanel1.add(dash, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 260, 60));
+
+        tenant.setBackground(new java.awt.Color(255, 0, 102));
+        tenant.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tenantMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tenantMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                tenantMouseExited(evt);
+            }
+        });
+        tenant.setLayout(null);
+
+        jLabel20.setBackground(new java.awt.Color(255, 0, 102));
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Tenants Registration");
+        tenant.add(jLabel20);
+        jLabel20.setBounds(10, 0, 233, 60);
+
+        jPanel1.add(tenant, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 260, 60));
+
+        payments.setBackground(new java.awt.Color(255, 0, 102));
+        payments.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                paymentsMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                paymentsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                paymentsMouseExited(evt);
+            }
+        });
+        payments.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("Payments");
+        payments.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, -1, 50));
+
+        jPanel1.add(payments, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 260, 50));
+
+        userAcc.setBackground(new java.awt.Color(255, 0, 102));
+        userAcc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userAccMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                userAccMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                userAccMouseExited(evt);
+            }
+        });
+        userAcc.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(userAcc, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 260, -1));
+
+        house.setBackground(new java.awt.Color(255, 0, 102));
+        house.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                houseMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                houseMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                houseMouseExited(evt);
+            }
+        });
+        house.setLayout(null);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
+        jLabel2.setText("Houses Record");
+        house.add(jLabel2);
+        jLabel2.setBounds(54, 0, 158, 60);
+
+        jPanel1.add(house, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 260, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 954, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,6 +285,70 @@ public class Admin extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_formWindowActivated
+
+    private void dashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashMouseClicked
+        
+    }//GEN-LAST:event_dashMouseClicked
+      
+    private void dashMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashMouseEntered
+           dash.setBackground(navcolor);
+    }//GEN-LAST:event_dashMouseEntered
+
+    private void dashMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashMouseExited
+           dash.setBackground(hovercolor);
+    }//GEN-LAST:event_dashMouseExited
+
+    private void tenantMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tenantMouseClicked
+        TenantsReg tr = new TenantsReg();
+        tr.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_tenantMouseClicked
+
+    private void tenantMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tenantMouseEntered
+         tenant.setBackground(navcolor);
+    }//GEN-LAST:event_tenantMouseEntered
+
+    private void tenantMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tenantMouseExited
+        tenant.setBackground(hovercolor);
+    }//GEN-LAST:event_tenantMouseExited
+
+    private void paymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paymentsMouseClicked
+
+    private void paymentsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseEntered
+         payments.setBackground(navcolor);
+    }//GEN-LAST:event_paymentsMouseEntered
+
+    private void paymentsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseExited
+        payments.setBackground(hovercolor);
+    }//GEN-LAST:event_paymentsMouseExited
+
+    private void userAccMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userAccMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userAccMouseClicked
+
+    private void userAccMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userAccMouseEntered
+        userAcc.setBackground(navcolor);
+    }//GEN-LAST:event_userAccMouseEntered
+
+    private void userAccMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userAccMouseExited
+        userAcc.setBackground(hovercolor);
+    }//GEN-LAST:event_userAccMouseExited
+
+    private void houseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_houseMouseClicked
+       housesrec hs = new housesrec();
+       hs.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_houseMouseClicked
+
+    private void houseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_houseMouseEntered
+        house.setBackground(navcolor);
+    }//GEN-LAST:event_houseMouseEntered
+
+    private void houseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_houseMouseExited
+       house.setBackground(hovercolor);
+    }//GEN-LAST:event_houseMouseExited
 
     /**
      * @param args the command line arguments
@@ -306,32 +388,26 @@ public class Admin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel acc_lname;
     private javax.swing.JLabel acc_name;
+    private javax.swing.JPanel dash;
+    private javax.swing.JPanel house;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JPanel payments;
+    private javax.swing.JPanel tenant;
+    private javax.swing.JPanel userAcc;
     // End of variables declaration//GEN-END:variables
 }

@@ -260,7 +260,6 @@ public class createForm extends javax.swing.JFrame {
         image = new javax.swing.JLabel();
         select = new javax.swing.JButton();
         remove = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 204));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -616,10 +615,7 @@ public class createForm extends javax.swing.JFrame {
         });
         jPanel1.add(remove, new org.netbeans.lib.awtextra.AbsoluteConstraints(669, 360, 120, 30));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/PINK.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 580));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 580));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 820, 580));
 
         pack();
         setLocationRelativeTo(null);
@@ -856,7 +852,6 @@ public class createForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;

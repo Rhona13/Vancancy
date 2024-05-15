@@ -3,16 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Config/Session.java</file>
             <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Registration/registrationform.java</file>
-            <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Image/icons8-rental-house-contract-100.png</file>
             <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Admindashboard/createForm.java</file>
-            <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Config/passwordHasher.java</file>
+            <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Admindashboard/housesrec.java</file>
+            <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Admindashboard/TenantsReg.java</file>
             <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Login/login.java</file>
             <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Admindashboard/UserForm.java</file>
-            <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/User/accountDetail.java</file>
-            <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/User/changePass.java</file>
-            <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/User/UserDash.java</file>
             <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Admindashboard/Admin.java</file>
             <file>file:/C:/Users/SSC-COLLEGE/Documents/clone/Vancancy/src/Config/DBConnector.java</file>
         </group>
