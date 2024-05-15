@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author Big Boss
  */
-public  class UserDash extends javax.swing.JFrame {
+public class UserDash extends javax.swing.JFrame {
 
     /**
      * Creates new form User
@@ -40,9 +40,9 @@ public  class UserDash extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -125,28 +125,28 @@ public  class UserDash extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 204, 204,160));
         jPanel6.setLayout(null);
 
-        jPanel5.setBackground(new java.awt.Color(255, 0, 102));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPanel7.setBackground(new java.awt.Color(255, 0, 102));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
+                jPanel7MouseClicked(evt);
             }
         });
-        jPanel5.setLayout(null);
+        jPanel7.setLayout(null);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-users-100.png"))); // NOI18N
-        jPanel5.add(jLabel2);
-        jLabel2.setBounds(20, 10, 100, 90);
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-users-100.png"))); // NOI18N
+        jPanel7.add(jLabel6);
+        jLabel6.setBounds(20, 10, 100, 90);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("ACCOUNT");
-        jPanel5.add(jLabel4);
-        jLabel4.setBounds(20, 90, 100, 30);
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("ACCOUNT");
+        jPanel7.add(jLabel7);
+        jLabel7.setBounds(20, 90, 100, 30);
 
-        jPanel6.add(jPanel5);
-        jPanel5.setBounds(22, 30, 140, 120);
+        jPanel6.add(jPanel7);
+        jPanel7.setBounds(22, 30, 140, 120);
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 440, 390));
 
@@ -170,23 +170,17 @@ public  class UserDash extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-            Session sess = Session.getInstance();
-        
-        if(sess.getId()==0){
-            JOptionPane.showMessageDialog(null,"No Account Found, Login First!");
+        Session sess = Session.getInstance();
+
+        if (sess.getId() == 0) {
+            JOptionPane.showMessageDialog(null, "No Account Found, Login First!");
             login lg = new login();
             lg.setVisible(true);
             this.dispose();
-        }else{
-            acc_name.setText(""+sess.getFn());
+        } else {
+            acc_name.setText("" + sess.getFn());
         }
     }//GEN-LAST:event_formWindowActivated
-
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
-        accountDetail ad = new accountDetail();
-        ad.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jPanel5MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         login lg = new login();
@@ -194,6 +188,12 @@ public  class UserDash extends javax.swing.JFrame {
         lg.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+        accountDetail ad = new accountDetail();
+        ad.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jPanel7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -235,14 +235,14 @@ public  class UserDash extends javax.swing.JFrame {
     private javax.swing.JLabel acc_name;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     // End of variables declaration//GEN-END:variables
 }

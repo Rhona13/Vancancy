@@ -7,13 +7,19 @@ package Admindashboard;
 
 import Config.DBConnector;
 import java.awt.Color;
+import java.awt.print.PrinterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -21,17 +27,17 @@ import net.proteanit.sql.DbUtils;
  * @author SSC-COLLEGE
  */
 public class housesrec extends javax.swing.JFrame {
-
+    
     private Connection connect;
     Connection cn = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-
+    
     public housesrec() {
         initComponents();
         displayData();
     }
-
+    
     public void displayData() {
         try {
             DBConnector DBConnector = new DBConnector();
@@ -40,11 +46,11 @@ public class housesrec extends javax.swing.JFrame {
             rs.close();
         } catch (SQLException ex) {
             System.out.println("Errors: " + ex.getMessage());
-
+            
         }
-
+        
     }
-
+    
     Color navcolor = new Color(255, 204, 255);
     Color hovercolor = new Color(255, 0, 102);
 
@@ -60,9 +66,8 @@ public class housesrec extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        hdate = new javax.swing.JTextField();
+        d = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -76,8 +81,7 @@ public class housesrec extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        hcash = new javax.swing.JComboBox<>();
-        hprice = new javax.swing.JTextField();
+        p = new javax.swing.JTextField();
         p_add = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         p_edit = new javax.swing.JPanel();
@@ -85,13 +89,27 @@ public class housesrec extends javax.swing.JFrame {
         delete = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        hstatus = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        hno = new javax.swing.JTextField();
+        hn = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        w = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        m = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
+        s = new javax.swing.JTextField();
+        e = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
+        stats = new javax.swing.JComboBox<>();
+        total = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         h_table = new javax.swing.JTable();
+        p_add2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        search = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -113,28 +131,25 @@ public class housesrec extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(null);
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel9.setText("Payment Method");
-        jPanel3.add(jLabel9);
-        jLabel9.setBounds(180, 390, 170, 34);
-
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jPanel3.add(jLabel11);
         jLabel11.setBounds(30, 370, 121, 30);
 
-        hdate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        hdate.addActionListener(new java.awt.event.ActionListener() {
+        d.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        d.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        d.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hdateActionPerformed(evt);
+                dActionPerformed(evt);
             }
         });
-        jPanel3.add(hdate);
-        hdate.setBounds(10, 530, 390, 50);
+        jPanel3.add(d);
+        d.setBounds(30, 430, 160, 50);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Due Date");
         jPanel3.add(jLabel13);
-        jLabel13.setBounds(30, 490, 190, 34);
+        jLabel13.setBounds(30, 390, 160, 34);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(null);
@@ -193,19 +208,15 @@ public class housesrec extends javax.swing.JFrame {
         jPanel3.add(jPanel4);
         jPanel4.setBounds(0, 0, 0, 0);
 
-        hcash.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        hcash.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash Deposit", "Cash Advance" }));
-        jPanel3.add(hcash);
-        hcash.setBounds(170, 430, 230, 50);
-
-        hprice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        hprice.addActionListener(new java.awt.event.ActionListener() {
+        p.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        p.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        p.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hpriceActionPerformed(evt);
+                pActionPerformed(evt);
             }
         });
-        jPanel3.add(hprice);
-        hprice.setBounds(10, 430, 140, 50);
+        jPanel3.add(p);
+        p.setBounds(230, 430, 160, 50);
 
         p_add.setBackground(new java.awt.Color(255, 204, 255));
         p_add.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -228,7 +239,7 @@ public class housesrec extends javax.swing.JFrame {
         jLabel6.setBounds(50, 0, 60, 40);
 
         jPanel3.add(p_add);
-        p_add.setBounds(20, 610, 170, 40);
+        p_add.setBounds(220, 640, 170, 40);
 
         p_edit.setBackground(new java.awt.Color(255, 204, 255));
         p_edit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -251,7 +262,7 @@ public class housesrec extends javax.swing.JFrame {
         jLabel7.setBounds(40, 0, 79, 40);
 
         jPanel3.add(p_edit);
-        p_edit.setBounds(210, 610, 170, 40);
+        p_edit.setBounds(220, 690, 170, 40);
 
         delete.setBackground(new java.awt.Color(255, 204, 255));
         delete.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -274,30 +285,103 @@ public class housesrec extends javax.swing.JFrame {
         jLabel2.setBounds(40, 0, 90, 40);
 
         jPanel3.add(delete);
-        delete.setBounds(100, 670, 180, 40);
+        delete.setBounds(20, 690, 180, 40);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Status");
         jPanel3.add(jLabel10);
-        jLabel10.setBounds(20, 290, 170, 34);
-
-        hstatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jPanel3.add(hstatus);
-        hstatus.setBounds(10, 330, 390, 50);
+        jLabel10.setBounds(20, 600, 180, 34);
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("Price");
         jPanel3.add(jLabel22);
-        jLabel22.setBounds(30, 390, 130, 34);
+        jLabel22.setBounds(230, 390, 160, 34);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel20.setText("House Number");
         jPanel3.add(jLabel20);
-        jLabel20.setBounds(20, 190, 160, 34);
+        jLabel20.setBounds(240, 60, 140, 34);
 
-        hno.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jPanel3.add(hno);
-        hno.setBounds(10, 230, 390, 50);
+        hn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        hn.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel3.add(hn);
+        hn.setBounds(230, 100, 160, 50);
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel26.setText("Water");
+        jPanel3.add(jLabel26);
+        jLabel26.setBounds(230, 170, 160, 34);
+
+        w.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        w.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel3.add(w);
+        w.setBounds(230, 210, 160, 50);
+
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("Maintenance");
+        jPanel3.add(jLabel27);
+        jLabel27.setBounds(230, 290, 160, 34);
+
+        m.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        m.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel3.add(m);
+        m.setBounds(230, 330, 160, 50);
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("Security");
+        jPanel3.add(jLabel28);
+        jLabel28.setBounds(30, 280, 160, 34);
+
+        s.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        s.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel3.add(s);
+        s.setBounds(30, 320, 160, 50);
+
+        e.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        e.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel3.add(e);
+        e.setBounds(30, 210, 160, 50);
+
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel29.setText("Electricity");
+        jPanel3.add(jLabel29);
+        jLabel29.setBounds(30, 170, 160, 34);
+
+        stats.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AVAILABLE", "OCCUPIED" }));
+        jPanel3.add(stats);
+        stats.setBounds(20, 630, 180, 50);
+
+        total.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        total.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        total.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalActionPerformed(evt);
+            }
+        });
+        jPanel3.add(total);
+        total.setBounds(30, 540, 360, 50);
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("Total");
+        jPanel3.add(jLabel24);
+        jLabel24.setBounds(30, 500, 360, 34);
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel23.setText("ID Number");
+        jPanel3.add(jLabel23);
+        jLabel23.setBounds(40, 60, 140, 34);
+
+        id.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        id.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jPanel3.add(id);
+        id.setBounds(30, 100, 160, 50);
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -50, 410, 840));
 
@@ -325,6 +409,55 @@ public class housesrec extends javax.swing.JFrame {
         jScrollPane2.setViewportView(h_table);
 
         jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 230, 650, 430));
+
+        p_add2.setBackground(new java.awt.Color(255, 204, 255));
+        p_add2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p_add2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                p_add2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                p_add2MouseExited(evt);
+            }
+        });
+        p_add2.setLayout(null);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("PRINT");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+        p_add2.add(jLabel8);
+        jLabel8.setBounds(-1, 2, 150, 50);
+
+        jPanel2.add(p_add2, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 170, 150, 50));
+
+        search.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        search.setText("SEARCH");
+        search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                searchMouseReleased(evt);
+            }
+        });
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+        search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKeyReleased(evt);
+            }
+        });
+        jPanel2.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, 500, 30));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 1110, 690));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 230, 30));
@@ -387,33 +520,47 @@ public class housesrec extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void p_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseClicked
-        if (hno.getText().isEmpty() || hstatus.getText().isEmpty()
-                || hprice.getText().isEmpty() || hdate.getText().isEmpty()) {
-
+        if (hn.getText().isEmpty() || p.getText().isEmpty() || d.getText().isEmpty()) {
+            
         } else {
             Connection cn = null;
             PreparedStatement save = null;
-
+            
             try {
                 DBConnector dc = new DBConnector();
                 cn = dc.getConnection();
-
-                save = cn.prepareStatement("INSERT INTO houses (h_number, h_status, h_price, h_payment, h_date) VALUES (?, ?, ?, ?, ?)");
-                save.setString(1, hno.getText());
-                save.setString(2, hstatus.getText());
-                save.setString(3, hprice.getText());
-                save.setString(4, hcash.getSelectedItem().toString());
-                save.setString(5, hdate.getText());
-
+                
+                String status = (String) stats.getSelectedItem();
+                
+                double electricity = Double.parseDouble(e.getText());
+                double water = Double.parseDouble(w.getText());
+                double maintenance = Double.parseDouble(m.getText());
+                double security = Double.parseDouble(s.getText());
+                double price = Double.parseDouble(p.getText());
+                
+                double totalValue = electricity + water + maintenance + security + price;
+                
+                save = cn.prepareStatement("INSERT INTO houses (h_number, h_status, h_price, h_date, h_electricity, h_water, h_maintencance, h_security, h_total) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ? , ?, ?)");
+                save.setString(1, hn.getText());
+                save.setString(2, status);
+                save.setDouble(3, price);
+                save.setString(4, d.getText());
+                save.setDouble(5, electricity);
+                save.setDouble(6, water);
+                save.setDouble(7, maintenance);
+                save.setDouble(8, security);
+                save.setDouble(9, totalValue);
+                
                 int row = save.executeUpdate();
-
+                
                 if (row > 0) {
                     JOptionPane.showMessageDialog(this, "Record Added!");
                     displayData();
                 } else {
                     JOptionPane.showMessageDialog(this, "Failed to add record!");
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
             } finally {
                 try {
@@ -428,7 +575,6 @@ public class housesrec extends javax.swing.JFrame {
                 }
             }
         }
-
     }//GEN-LAST:event_p_addMouseClicked
 
     private void p_addMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseEntered
@@ -441,32 +587,38 @@ public class housesrec extends javax.swing.JFrame {
 
     private void p_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseClicked
         int rowIndex = h_table.getSelectedRow();
-
+        
         if (rowIndex < 0) {
             JOptionPane.showMessageDialog(null, "Please Select an Item!");
         } else {
             Connection connection = null;
             PreparedStatement preparedStatement = null;
-
+            
             try {
+                
+                String status = (String) stats.getSelectedItem();
                 DBConnector dbConnector = new DBConnector();
                 connection = dbConnector.getConnection();
-
+                
                 TableModel tbl = h_table.getModel();
                 String selectedId = tbl.getValueAt(rowIndex, 0).toString();
-
-                String updateQuery = "UPDATE houses SET h_number = ?, h_status = ?, h_price = ?, h_payment = ?, h_date = ? WHERE h_id = ?";
+                
+                String updateQuery = "UPDATE houses SET h_number = ?, h_status = ?, h_price = ?,h_date = ?, h_electricity = ?, h_water = ?, h_maintencance = ?, h_security = ? , h_total = ? WHERE h_id = ?";
                 preparedStatement = connection.prepareStatement(updateQuery);
-
-                preparedStatement.setString(1, hno.getText());
-                preparedStatement.setString(2, hstatus.getText());
-                preparedStatement.setString(3, hprice.getText());
-                preparedStatement.setString(4, hcash.getSelectedItem().toString());
-                preparedStatement.setString(5, hdate.getText());
-                preparedStatement.setString(6, selectedId);
-
+                
+                preparedStatement.setString(1, hn.getText());
+                preparedStatement.setString(2, status);
+                preparedStatement.setString(3, p.getText());
+                preparedStatement.setString(4, d.getText());
+                preparedStatement.setString(5, e.getText());
+                preparedStatement.setString(6, w.getText());
+                preparedStatement.setString(7, m.getText());
+                preparedStatement.setString(8, s.getText());
+                preparedStatement.setString(9, total.getText());
+                preparedStatement.setString(10, selectedId);
+                
                 int rowsAffected = preparedStatement.executeUpdate();
-
+                
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(null, "Record updated successfully!");
                     displayData();
@@ -500,12 +652,12 @@ public class housesrec extends javax.swing.JFrame {
 
     private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
         int rowIndex = h_table.getSelectedRow();
-
+        
         if (rowIndex < 0) {
             JOptionPane.showMessageDialog(null, "Please Select an Item!");
         } else {
             int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
-
+            
             if (confirm == JOptionPane.YES_OPTION) {
                 DBConnector DBConnector = new DBConnector();
                 TableModel tbl = h_table.getModel();
@@ -536,18 +688,28 @@ public class housesrec extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please Select an Item!");
         } else {
             TableModel model = h_table.getModel();
-
-            String hnoValue = model.getValueAt(rowIndex, 0).toString();
-            String hstatusValue = model.getValueAt(rowIndex, 1).toString();
-            String hpriceValue = model.getValueAt(rowIndex, 2).toString();
-            String hdateValue = model.getValueAt(rowIndex, 3).toString();
-            String hcashValue = model.getValueAt(rowIndex, 4).toString();
-
-            hno.setText(hnoValue);
-            hstatus.setText(hstatusValue);
-            hprice.setText(hpriceValue);
-            hcash.setSelectedItem(hcashValue);
-            hdate.setText(hdateValue);
+            
+            String xid = model.getValueAt(rowIndex, 0).toString();
+            String hnoValue = model.getValueAt(rowIndex, 1).toString();
+            String hstatusValue = model.getValueAt(rowIndex, 2).toString();
+            String hpriceValue = model.getValueAt(rowIndex, 3).toString();
+            String hdateValue = model.getValueAt(rowIndex, 4).toString();
+            String electricity = model.getValueAt(rowIndex, 5).toString();
+            String water = model.getValueAt(rowIndex, 6).toString();
+            String maintenance = model.getValueAt(rowIndex, 7).toString();
+            String security = model.getValueAt(rowIndex, 8).toString();
+            String totalValue = model.getValueAt(rowIndex, 9).toString();
+            
+            id.setText(xid);
+            hn.setText(hnoValue);
+            stats.setSelectedItem(hstatusValue);
+            p.setText(hpriceValue);
+            d.setText(hdateValue);
+            e.setText(electricity);
+            w.setText(water);
+            m.setText(maintenance);
+            s.setText(security);
+            total.setText(totalValue);
         }
     }//GEN-LAST:event_h_tableMouseClicked
 
@@ -557,13 +719,58 @@ public class housesrec extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel25MouseClicked
 
-    private void hdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hdateActionPerformed
+    private void dActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_hdateActionPerformed
+    }//GEN-LAST:event_dActionPerformed
 
-    private void hpriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hpriceActionPerformed
+    private void pActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_hpriceActionPerformed
+    }//GEN-LAST:event_pActionPerformed
+
+    private void totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalActionPerformed
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        MessageFormat header = new MessageFormat("Transaction Reports");
+        MessageFormat footer = new MessageFormat("Page{0,number,integer}");
+        try {
+            h_table.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+        } catch (PrinterException er) {
+            System.out.println("" + er.getMessage());
+        }
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void p_add2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_add2MouseClicked
+
+    }//GEN-LAST:event_p_add2MouseClicked
+
+    private void p_add2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_add2MouseEntered
+        p_add.setBackground(hovercolor);
+    }//GEN-LAST:event_p_add2MouseEntered
+
+    private void p_add2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_add2MouseExited
+        p_add.setBackground(navcolor);
+    }//GEN-LAST:event_p_add2MouseExited
+
+    private void searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseClicked
+        search.setText("");
+    }//GEN-LAST:event_searchMouseClicked
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        
+
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void searchMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseReleased
+    }//GEN-LAST:event_searchMouseReleased
+
+    private void searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchKeyReleased
+        DefaultTableModel tbl = (DefaultTableModel) h_table.getModel();
+        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(tbl);
+        h_table.setRowSorter(obj);
+        obj.setRowFilter(RowFilter.regexFilter(search.getText()));
+    }//GEN-LAST:event_searchKeyReleased
 
     /**
      * @param args the command line arguments
@@ -602,13 +809,12 @@ public class housesrec extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel acc_id;
+    private javax.swing.JTextField d;
     private javax.swing.JPanel delete;
+    private javax.swing.JTextField e;
     private javax.swing.JTable h_table;
-    private javax.swing.JComboBox<String> hcash;
-    private javax.swing.JTextField hdate;
-    private javax.swing.JTextField hno;
-    private javax.swing.JTextField hprice;
-    private javax.swing.JTextField hstatus;
+    private javax.swing.JTextField hn;
+    public static final javax.swing.JTextField id = new javax.swing.JTextField();
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -624,13 +830,19 @@ public class housesrec extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -643,7 +855,15 @@ public class housesrec extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField m;
+    private javax.swing.JTextField p;
     private javax.swing.JPanel p_add;
+    private javax.swing.JPanel p_add2;
     private javax.swing.JPanel p_edit;
+    private javax.swing.JTextField s;
+    private javax.swing.JTextField search;
+    private javax.swing.JComboBox<String> stats;
+    private javax.swing.JTextField total;
+    private javax.swing.JTextField w;
     // End of variables declaration//GEN-END:variables
 }

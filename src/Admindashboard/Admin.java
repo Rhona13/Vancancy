@@ -20,9 +20,8 @@ public class Admin extends javax.swing.JFrame {
         initComponents();
 
     }
-     Color navcolor = new Color(255, 204, 255);
+    Color navcolor = new Color(255, 204, 255);
     Color hovercolor = new Color(255, 0, 102);
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,9 +49,9 @@ public class Admin extends javax.swing.JFrame {
         dash = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         tenant = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
         payments = new javax.swing.JPanel();
-        jLabel22 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         userAcc = new javax.swing.JPanel();
         house = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -180,12 +179,12 @@ public class Admin extends javax.swing.JFrame {
         });
         tenant.setLayout(null);
 
-        jLabel20.setBackground(new java.awt.Color(255, 0, 102));
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel20.setText("Tenants Registration");
-        tenant.add(jLabel20);
-        jLabel20.setBounds(10, 0, 233, 60);
+        jLabel21.setBackground(new java.awt.Color(255, 0, 102));
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("Tenants Registration");
+        tenant.add(jLabel21);
+        jLabel21.setBounds(10, 0, 233, 60);
 
         jPanel1.add(tenant, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 260, 60));
 
@@ -203,10 +202,19 @@ public class Admin extends javax.swing.JFrame {
         });
         payments.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel22.setText("Payments");
-        payments.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, -1, 50));
+        jLabel20.setBackground(new java.awt.Color(255, 0, 102));
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Payments");
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel20MouseEntered(evt);
+            }
+        });
+        payments.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 233, 50));
 
         jPanel1.add(payments, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 260, 50));
 
@@ -240,9 +248,9 @@ public class Admin extends javax.swing.JFrame {
         house.setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jLabel2.setText("Houses Record");
+        jLabel2.setText("Houses Overview");
         house.add(jLabel2);
-        jLabel2.setBounds(54, 0, 158, 60);
+        jLabel2.setBounds(40, 0, 230, 60);
 
         jPanel1.add(house, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 260, 60));
 
@@ -287,15 +295,15 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void dashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashMouseClicked
-        
+
     }//GEN-LAST:event_dashMouseClicked
-      
+
     private void dashMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashMouseEntered
-           dash.setBackground(navcolor);
+        dash.setBackground(navcolor);
     }//GEN-LAST:event_dashMouseEntered
 
     private void dashMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashMouseExited
-           dash.setBackground(hovercolor);
+        dash.setBackground(hovercolor);
     }//GEN-LAST:event_dashMouseExited
 
     private void tenantMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tenantMouseClicked
@@ -305,7 +313,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_tenantMouseClicked
 
     private void tenantMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tenantMouseEntered
-         tenant.setBackground(navcolor);
+        tenant.setBackground(navcolor);
     }//GEN-LAST:event_tenantMouseEntered
 
     private void tenantMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tenantMouseExited
@@ -313,13 +321,10 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_tenantMouseExited
 
     private void paymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseClicked
-        transactions ts = new transactions();
-        ts.setVisible(true);
-        dispose();
     }//GEN-LAST:event_paymentsMouseClicked
 
     private void paymentsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseEntered
-         payments.setBackground(navcolor);
+        payments.setBackground(navcolor);
     }//GEN-LAST:event_paymentsMouseEntered
 
     private void paymentsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseExited
@@ -339,9 +344,9 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_userAccMouseExited
 
     private void houseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_houseMouseClicked
-       housesrec hs = new housesrec();
-       hs.setVisible(true);
-       this.dispose();
+        housesrec hs = new housesrec();
+        hs.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_houseMouseClicked
 
     private void houseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_houseMouseEntered
@@ -349,8 +354,18 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_houseMouseEntered
 
     private void houseMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_houseMouseExited
-       house.setBackground(hovercolor);
+        house.setBackground(hovercolor);
     }//GEN-LAST:event_houseMouseExited
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+        payments p = new payments();
+        p.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel20MouseClicked
+
+    private void jLabel20MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel20MouseEntered
 
     /**
      * @param args the command line arguments
@@ -399,7 +414,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;

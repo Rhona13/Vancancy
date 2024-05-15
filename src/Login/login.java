@@ -12,12 +12,15 @@ import Config.passwordHasher;
 import Registration.registrationform;
 import User.UserDash;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-
-
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -30,53 +33,58 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
+
+        login.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "login");
+        login.getActionMap().put("login", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginActionPerformed(e);
+            }
+        });
     }
-    
-     static String status;
-      static String type;
-      
-    public static boolean loginAcc(String username, String password){
+
+    static String status;
+    static String type;
+
+    public static boolean loginAcc(String username, String password) {
         DBConnector connector = new DBConnector();
-        try{
+        try {
             String query = "SELECT * FROM rent  WHERE t_username = '" + username + "'";
             ResultSet resultSet = connector.getData(query);
 
-                if(resultSet.next()){ 
-                    String hashedPass = resultSet.getString("t_pass");
-                    String rehashedPass = passwordHasher.hashPassword(password);
-                    
-                    System.out.println(""+hashedPass);
-                    System.out.println(""+rehashedPass);
-                    if(hashedPass.equals(rehashedPass)){
-                status= resultSet.getString("t_status");
-                type= resultSet.getString("t_type");
-                Session sess = Session.getInstance();
-                sess.setId(resultSet.getInt("t_id"));
-                sess.setFn(resultSet.getString("t_fn"));
-                sess.setLn(resultSet.getString("t_ln"));
-                sess.setEmail(resultSet.getString("t_email"));
-                sess.setUsername(resultSet.getString("t_username"));
-                sess.setContact(resultSet.getString("t_contact"));
-                sess.setType(resultSet.getString("t_type"));
-                sess.setStatus(resultSet.getString("t_status"));
-                
-                return true;
-            }else{
+            if (resultSet.next()) {
+                String hashedPass = resultSet.getString("t_pass");
+                String rehashedPass = passwordHasher.hashPassword(password);
+
+                System.out.println("" + hashedPass);
+                System.out.println("" + rehashedPass);
+                if (hashedPass.equals(rehashedPass)) {
+                    status = resultSet.getString("t_status");
+                    type = resultSet.getString("t_type");
+                    Session sess = Session.getInstance();
+                    sess.setId(resultSet.getInt("t_id"));
+                    sess.setFn(resultSet.getString("t_fn"));
+                    sess.setLn(resultSet.getString("t_ln"));
+                    sess.setEmail(resultSet.getString("t_email"));
+                    sess.setUsername(resultSet.getString("t_username"));
+                    sess.setContact(resultSet.getString("t_contact"));
+                    sess.setType(resultSet.getString("t_type"));
+                    sess.setStatus(resultSet.getString("t_status"));
+
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
                 return false;
             }
-                   }else{
-                return false;
-            }
-        }catch (SQLException | NoSuchAlgorithmException ex) {
-            System.out.println(""+ex);
+        } catch (SQLException | NoSuchAlgorithmException ex) {
+            System.out.println("" + ex);
             return false;
         }
 
     }
 
-
-
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -197,9 +205,9 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxActionPerformed
-        if(cbox.isSelected()){
-            pass.setEchoChar((char)0);
-        }else{
+        if (cbox.isSelected()) {
+            pass.setEchoChar((char) 0);
+        } else {
             pass.setEchoChar('*');
         }
     }//GEN-LAST:event_cboxActionPerformed
@@ -228,26 +236,26 @@ public class login extends javax.swing.JFrame {
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
 
-        if ( loginAcc(user.getText() ,pass.getText())) {
-            if(!status.equals("Active")){
-                JOptionPane.showMessageDialog(null,"In-Active Account, Contact Admin!");
-            }else{
-                if(type.equals("Admin")){
-                    JOptionPane.showMessageDialog(null,"Login Successfully!");
+        if (loginAcc(user.getText(), pass.getText())) {
+            if (!status.equals("Active")) {
+                JOptionPane.showMessageDialog(null, "In-Active Account, Contact Admin!");
+            } else {
+                if (type.equals("Admin")) {
+                    JOptionPane.showMessageDialog(null, "Login Successfully!");
                     Admin admin = new Admin();
                     admin.setVisible(true);
                     this.dispose();
-                }else if(type.equals("User")){
-                    JOptionPane.showMessageDialog(null,"Login Successfully!");
+                } else if (type.equals("User")) {
+                    JOptionPane.showMessageDialog(null, "Login Successfully!");
                     UserDash user = new UserDash();
                     user.setVisible(true);
                     this.dispose();
-                }else{
-                    JOptionPane.showMessageDialog(null,"No Account Type Found, Contact Admin!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No Account Type Found, Contact Admin!");
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null,"Login Failed!");
+            JOptionPane.showMessageDialog(null, "Login Failed!");
         }
     }//GEN-LAST:event_loginActionPerformed
 

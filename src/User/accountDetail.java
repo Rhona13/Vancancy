@@ -5,16 +5,27 @@
  */
 package User;
 
+import Admindashboard.UserForm;
+import Config.DBConnector;
 import Config.Session;
 import Login.login;
 import Registration.registrationform;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author Big Boss
  */
-public  class accountDetail extends javax.swing.JFrame {
+public class accountDetail extends javax.swing.JFrame {
 
     /**
      * Creates new form User
@@ -33,10 +44,10 @@ public  class accountDetail extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         acc_ln = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -58,11 +69,11 @@ public  class accountDetail extends javax.swing.JFrame {
         fn = new javax.swing.JTextField();
         ln = new javax.swing.JTextField();
         contact = new javax.swing.JTextField();
-        asd = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
         username = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         idDisplay = new javax.swing.JLabel();
@@ -80,6 +91,15 @@ public  class accountDetail extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 51, 153));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setText("LOGOUT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 80, 30));
+
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
         jPanel2.setLayout(null);
 
@@ -94,15 +114,6 @@ public  class accountDetail extends javax.swing.JFrame {
         acc_ln.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acc_ln.setText("User");
         jPanel1.add(acc_ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 90, -1));
-
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton1.setText("LOGOUT");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 80, 30));
 
         jPanel3.setBackground(new java.awt.Color(255, 204, 204,30));
         jPanel3.setForeground(new java.awt.Color(255, 0, 153));
@@ -132,7 +143,7 @@ public  class accountDetail extends javax.swing.JFrame {
                 jLabel8MouseClicked(evt);
             }
         });
-        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 270, 160, 30));
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 400, 160, 30));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Username:");
@@ -197,24 +208,29 @@ public  class accountDetail extends javax.swing.JFrame {
             }
         });
         jPanel5.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, 290, 30));
-
-        asd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        asd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
-        asd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                asdActionPerformed(evt);
-            }
-        });
-        jPanel5.add(asd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 130, 30));
         jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
         jPanel5.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 290, 30));
         jPanel5.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 290, 30));
 
-        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel21.setText("Account Type:");
-        jPanel5.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 110, 30));
+        jButton4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton4.setText("BACK");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 100, 30));
 
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 420, 310));
+        jButton5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton5.setText("UPDATE");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 230, 100, 30));
+
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 420, 440));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 480, 480));
 
@@ -263,26 +279,25 @@ public  class accountDetail extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            login lg = new login();
-            JOptionPane.showMessageDialog(null, "Logged Out!"); 
-            lg.setVisible(true); 
-            this.dispose();
+        login lg = new login();
+        JOptionPane.showMessageDialog(null, "Logged Out!");
+        lg.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-            Session sess = Session.getInstance();
-        
-        idDisplay.setText("USER ID:"+sess.getId());
-        fn.setText(""+sess.getFn());
-        ln.setText(""+sess.getLn());
-        email.setText(""+sess.getEmail());
-        username.setText(""+sess.getUsername());
-        contact.setText(""+sess.getContact());
-    }//GEN-LAST:event_formWindowActivated
+        Session sess = Session.getInstance();
+        if (sess.getFn() == null) {
 
-    private void asdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_asdActionPerformed
+        } else {
+            idDisplay.setText("USER ID:" + sess.getId());
+            fn.setText("" + sess.getFn());
+            ln.setText("" + sess.getLn());
+            email.setText("" + sess.getEmail());
+            username.setText("" + sess.getUsername());
+            contact.setText("" + sess.getContact());
+        }
+    }//GEN-LAST:event_formWindowActivated
 
     private void contactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactActionPerformed
         // TODO add your handling code here:
@@ -293,6 +308,32 @@ public  class accountDetail extends javax.swing.JFrame {
         cp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        UserDash ud = new UserDash();
+        ud.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (fn.getText().isEmpty() || ln.getText().isEmpty() || email.getText().isEmpty()
+                || username.getText().isEmpty() || contact.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "All fields are required!");
+
+        } else {
+            DBConnector DBConnector = new DBConnector();
+
+            Session sess = Session.getInstance();
+
+            DBConnector.updateData("UPDATE rent SET t_fn = '" + fn.getText() + "', t_ln = '" + ln.getText() + "', "
+                    + "t_email = '" + email.getText() + "', t_username = '" + username.getText() + "', t_contact = '" + contact.getText() + "' WHERE t_id = '" + sess.getId() + "' ");
+
+            JOptionPane.showMessageDialog(null, "ACCOUNT UPDATED!");
+            login lg = new login();
+            lg.setVisible(true);
+            dispose();
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,12 +376,13 @@ public  class accountDetail extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel acc_fn;
     private javax.swing.JLabel acc_ln;
-    private javax.swing.JComboBox<String> asd;
     private javax.swing.JTextField contact;
     private javax.swing.JTextField email;
     private javax.swing.JTextField fn;
     private javax.swing.JLabel idDisplay;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -353,7 +395,6 @@ public  class accountDetail extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
