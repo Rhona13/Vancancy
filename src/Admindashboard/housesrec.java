@@ -5,6 +5,7 @@
  */
 package Admindashboard;
 
+import Config.DBConnector;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,24 +13,40 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author SSC-COLLEGE
  */
-
 public class housesrec extends javax.swing.JFrame {
-private Connection connect;
-   Connection cn = null;
-   PreparedStatement pst =null;
-   ResultSet rs =null;
-   
+
+    private Connection connect;
+    Connection cn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
     public housesrec() {
         initComponents();
+        displayData();
     }
-     Color navcolor = new Color(255, 204, 255);
-     Color hovercolor = new Color(255, 0, 102);
 
+    public void displayData() {
+        try {
+            DBConnector DBConnector = new DBConnector();
+            ResultSet rs = DBConnector.getData("SELECT * FROM houses");
+            h_table.setModel(DbUtils.resultSetToTableModel(rs));
+            rs.close();
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+
+        }
+
+    }
+
+    Color navcolor = new Color(255, 204, 255);
+    Color hovercolor = new Color(255, 0, 102);
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -370,27 +387,48 @@ private Connection connect;
     }// </editor-fold>//GEN-END:initComponents
 
     private void p_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseClicked
-    if(  hno.getText().isEmpty() || hstatus.getText().isEmpty() 
-            || hprice.getText().isEmpty() || hdate.getText().isEmpty())   {
-      
-        JOptionPane.showMessageDialog(this, "Missing Data!");
-    }else{
-          try{
-                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/renatal", "root", "");
-                PreparedStatement Save = connect.prepareStatement("insert into  houses VALUES(? ? ? ? ? ?  )");
-                Save.setInt(1, 1);
-                Save.setString(2,hno.getText().toString());
-                Save.setString(3,hstatus.getText().toString());
-                Save.setString(4,hprice.getText().toString());
-                Save.setString(5,hcash.getSelectedItem().toString());
-                Save.setString(6,hdate.getText().toString());
-                int row = Save.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Record Added!");
-                connect.close();
-            }catch(SQLException ex){
-                    System.out.println("Can't connect to database: "+ex.getMessage());
+        if (hno.getText().isEmpty() || hstatus.getText().isEmpty()
+                || hprice.getText().isEmpty() || hdate.getText().isEmpty()) {
+
+        } else {
+            Connection cn = null;
+            PreparedStatement save = null;
+
+            try {
+                DBConnector dc = new DBConnector();
+                cn = dc.getConnection();
+
+                save = cn.prepareStatement("INSERT INTO houses (h_number, h_status, h_price, h_payment, h_date) VALUES (?, ?, ?, ?, ?)");
+                save.setString(1, hno.getText());
+                save.setString(2, hstatus.getText());
+                save.setString(3, hprice.getText());
+                save.setString(4, hcash.getSelectedItem().toString());
+                save.setString(5, hdate.getText());
+
+                int row = save.executeUpdate();
+
+                if (row > 0) {
+                    JOptionPane.showMessageDialog(this, "Record Added!");
+                    displayData();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to add record!");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            } finally {
+                try {
+                    if (save != null) {
+                        save.close();
+                    }
+                    if (cn != null) {
+                        cn.close();
+                    }
+                } catch (SQLException ex) {
+                    System.out.println("error" + ex.getMessage());
+                }
             }
         }
+
     }//GEN-LAST:event_p_addMouseClicked
 
     private void p_addMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseEntered
@@ -402,8 +440,54 @@ private Connection connect;
     }//GEN-LAST:event_p_addMouseExited
 
     private void p_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseClicked
-      
+        int rowIndex = h_table.getSelectedRow();
 
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+        } else {
+            Connection connection = null;
+            PreparedStatement preparedStatement = null;
+
+            try {
+                DBConnector dbConnector = new DBConnector();
+                connection = dbConnector.getConnection();
+
+                TableModel tbl = h_table.getModel();
+                String selectedId = tbl.getValueAt(rowIndex, 0).toString();
+
+                String updateQuery = "UPDATE houses SET h_number = ?, h_status = ?, h_price = ?, h_payment = ?, h_date = ? WHERE h_id = ?";
+                preparedStatement = connection.prepareStatement(updateQuery);
+
+                preparedStatement.setString(1, hno.getText());
+                preparedStatement.setString(2, hstatus.getText());
+                preparedStatement.setString(3, hprice.getText());
+                preparedStatement.setString(4, hcash.getSelectedItem().toString());
+                preparedStatement.setString(5, hdate.getText());
+                preparedStatement.setString(6, selectedId);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(null, "Record updated successfully!");
+                    displayData();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No data found for the selected item.");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error updating data: " + ex.getMessage());
+            } finally {
+                try {
+                    if (preparedStatement != null) {
+                        preparedStatement.close();
+                    }
+                    if (connection != null) {
+                        connection.close();
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error updating data: " + ex.getMessage());
+                }
+            }
+        }
     }//GEN-LAST:event_p_editMouseClicked
 
     private void p_editMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseEntered
@@ -415,7 +499,27 @@ private Connection connect;
     }//GEN-LAST:event_p_editMouseExited
 
     private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
-        // TODO add your handling code here:
+        int rowIndex = h_table.getSelectedRow();
+
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+        } else {
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                DBConnector DBConnector = new DBConnector();
+                TableModel tbl = h_table.getModel();
+                String t_id = tbl.getValueAt(rowIndex, 0).toString();
+                String sql = "DELETE FROM houses WHERE h_id = '" + t_id + "'";
+                int affectedRows = DBConnector.updateData(sql);
+                if (affectedRows > 0) {
+                    JOptionPane.showMessageDialog(null, "Record deleted successfully!");
+                    displayData();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Record deletion failed!");
+                }
+            }
+        }
     }//GEN-LAST:event_deleteMouseClicked
 
     private void deleteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseEntered
@@ -427,11 +531,28 @@ private Connection connect;
     }//GEN-LAST:event_deleteMouseExited
 
     private void h_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_h_tableMouseClicked
+        int rowIndex = h_table.getSelectedRow();
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+        } else {
+            TableModel model = h_table.getModel();
 
+            String hnoValue = model.getValueAt(rowIndex, 0).toString();
+            String hstatusValue = model.getValueAt(rowIndex, 1).toString();
+            String hpriceValue = model.getValueAt(rowIndex, 2).toString();
+            String hdateValue = model.getValueAt(rowIndex, 3).toString();
+            String hcashValue = model.getValueAt(rowIndex, 4).toString();
+
+            hno.setText(hnoValue);
+            hstatus.setText(hstatusValue);
+            hprice.setText(hpriceValue);
+            hcash.setSelectedItem(hcashValue);
+            hdate.setText(hdateValue);
+        }
     }//GEN-LAST:event_h_tableMouseClicked
 
     private void jLabel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MouseClicked
-        Admin Admin = new Admin ();
+        Admin Admin = new Admin();
         Admin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel25MouseClicked

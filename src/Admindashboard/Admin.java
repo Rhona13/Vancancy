@@ -313,7 +313,9 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_tenantMouseExited
 
     private void paymentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseClicked
-        // TODO add your handling code here:
+        transactions ts = new transactions();
+        ts.setVisible(true);
+        dispose();
     }//GEN-LAST:event_paymentsMouseClicked
 
     private void paymentsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_paymentsMouseEntered

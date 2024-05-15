@@ -7,9 +7,12 @@ package Admindashboard;
 
 import Config.DBConnector;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -23,80 +26,76 @@ public class TenantsReg extends javax.swing.JFrame {
      */
     public TenantsReg() {
         initComponents();
-       displayData();
+        displayData();
     }
-     
 
-    
-     public void displayData(){
-        try{
-       
+    public void displayData() {
+        try {
+
             DBConnector dbc = new DBConnector();
             ResultSet rs = dbc.getData("SELECT * FROM occupant");
             t_able.setModel(DbUtils.resultSetToTableModel(rs));
-       
-        }catch(SQLException ex){
-            System.out.println("Error Message: "+ex);
-       
+
+        } catch (SQLException ex) {
+            System.out.println("Error Message: " + ex);
+
         }
-    
-     }
-    public void filltable () throws SQLException{
-        try{
+
+    }
+
+    public void filltable() throws SQLException {
+        try {
             DBConnector dbc = new DBConnector();
             ResultSet rs = dbc.getData("SELECT * FROM book_details");
             t_able.setModel(DbUtils.resultSetToTableModel(rs));
-        }catch(SQLException ex){
-        
+        } catch (SQLException ex) {
+
         }
-    
+
     }
-    public boolean validation(){
-  String ID= oid.getText();
-String FN= ofn.getText();
-String LN= oln.getText();
-String CN= ocn.getText();
-String SD= od.getText();
 
+    public boolean validation() {
+        String ID = oid.getText();
+        String FN = ofn.getText();
+        String LN = oln.getText();
+        String CN = ocn.getText();
+        String SD = od.getText();
 
+        if (oid.equals("")) {
+            JOptionPane.showMessageDialog(this, "PLEASE ENTER ISBN");
+            return false;
+        }
+        if (ofn.equals("")) {
+            JOptionPane.showMessageDialog(this, "PLEASE ENTER BOOK TITTLE");
+            return false;
+        }
+        if (oln.equals("")) {
+            JOptionPane.showMessageDialog(this, "PLEASE ENTER EDITION");
+            return false;
+        }
+        if (ocn.equals("")) {
+            JOptionPane.showMessageDialog(this, "PLEASE ENTER QUANTITY");
+            return false;
+        }
+        if (od.equals("")) {
+            JOptionPane.showMessageDialog(this, "PLEASE ENTER QUANTITY");
+            return false;
+        }
+        return true;
+    }
 
+    public void reset() {
+        oid.setText("");
+        ofn.setText("");
+        oln.setText("");
+        ocn.setText("");
+        onm.setSelectedItem("0");
+        od.setText("");
 
+    }
 
- if (oid.equals("")){
- JOptionPane.showMessageDialog(this, "PLEASE ENTER ISBN");
- return false;
- }
- if(ofn.equals("")){
- JOptionPane.showMessageDialog(this, "PLEASE ENTER BOOK TITTLE");
- return false;
- }     
- if(oln.equals("")){
- JOptionPane.showMessageDialog(this, "PLEASE ENTER EDITION");
- return false;
- }    
-   if(ocn.equals("")){
- JOptionPane.showMessageDialog(this, "PLEASE ENTER QUANTITY");
- return false;
- }      
-    if(od.equals("")){
- JOptionPane.showMessageDialog(this, "PLEASE ENTER QUANTITY");
- return false;
- }      
-   return true;  
- }
-   
-    public void reset(){
-   oid.setText("");
-   ofn.setText("");
-   oln.setText("");
-   ocn.setText("");
-   onm. setSelectedItem("0");
-   od.setText("");
-  
-   }
-   
-     Color navcolor = new Color(255, 204, 255);
-     Color hovercolor = new Color(255, 0, 102);
+    Color navcolor = new Color(255, 204, 255);
+    Color hovercolor = new Color(255, 0, 102);
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -288,6 +287,11 @@ String SD= od.getText();
                 p_addMouseExited(evt);
             }
         });
+        p_add.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                p_addKeyReleased(evt);
+            }
+        });
         p_add.setLayout(null);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -433,20 +437,55 @@ String SD= od.getText();
     }// </editor-fold>//GEN-END:initComponents
 
     private void p_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseClicked
-       if(oid.getText().isEmpty() || ofn.getText().isEmpty() || oln.getText().isEmpty()
-            || ocn.getText().isEmpty() || od.getText().isEmpty()  ){
+        if (oid.getText().isEmpty() || ofn.getText().isEmpty() || oln.getText().isEmpty()
+                || ocn.getText().isEmpty() || od.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "All fields are required!");
-        displayData();
-    
-        }     
- 
-       
+            displayData();
+            return;
+        }
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
             DBConnector dbc = new DBConnector();
-        dbc.insertData("INSERT INTO occupant ( o_id, o_firstname, o_lastname, o_contact, o_members, o_date) "
-                + "VALUES ('"+oid.getText()+"','"+ofn.getText()+"','"+oln.getText()+"','"+ocn.getText()+"','"+onm.getSelectedItem()+"','"+od.getText()+"')");
-        displayData();
-   
-           
+            connection = dbc.getConnection();
+
+            String insertQuery = "INSERT INTO occupant (o_id, o_firstname, o_lastname, o_contact, o_members, o_date) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
+
+            preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setString(1, oid.getText());
+            preparedStatement.setString(2, ofn.getText());
+            preparedStatement.setString(3, oln.getText());
+            preparedStatement.setString(4, ocn.getText());
+            preparedStatement.setString(5, onm.getSelectedItem().toString());
+            preparedStatement.setString(6, od.getText());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Record inserted successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to insert the record.");
+            }
+
+            displayData();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error inserting data: " + ex.getMessage());
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error inserting data: " + ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_p_addMouseClicked
 
     private void p_addMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_addMouseEntered
@@ -458,21 +497,20 @@ String SD= od.getText();
     }//GEN-LAST:event_p_addMouseExited
 
     private void p_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseClicked
-        if(validation()== true){
-      
-      DBConnector dbc = new DBConnector();
-        int num = dbc.updateData("UPDATE occupant SET o_firstname "
-                + "= '"+ofn.getText()+"', o_lastname = '"+oln.getText()+"', o_contact "
-                        + "= '"+ocn.getText()+"', o_members = '"+onm.getSelectedItem()+"', o_date = '"+od.getText()+"' WHERE o_id = '"+oid.getText()+"'");
-        if(num ==0){
-        
-        }else{
-        JOptionPane.showMessageDialog(null, "updated successfully");
-        displayData();
-        reset();
+        if (validation() == true) {
+
+            DBConnector dbc = new DBConnector();
+            int num = dbc.updateData("UPDATE occupant SET o_firstname "
+                    + "= '" + ofn.getText() + "', o_lastname = '" + oln.getText() + "', o_contact "
+                    + "= '" + ocn.getText() + "', o_members = '" + onm.getSelectedItem() + "', o_date = '" + od.getText() + "' WHERE o_id = '" + oid.getText() + "'");
+            if (num == 0) {
+
+            } else {
+                JOptionPane.showMessageDialog(null, "updated successfully");
+                displayData();
+                reset();
+            }
         }
-      
-      }
     }//GEN-LAST:event_p_editMouseClicked
 
     private void p_editMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p_editMouseEntered
@@ -484,27 +522,94 @@ String SD= od.getText();
     }//GEN-LAST:event_p_editMouseExited
 
     private void jLabel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MouseClicked
-        Admin Admin = new Admin ();
+        Admin Admin = new Admin();
         Admin.setVisible(true);
         this.dispose();
 
     }//GEN-LAST:event_jLabel25MouseClicked
 
     private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
-        // TODO add your handling code here:
+        int rowIndex = t_able.getSelectedRow();
+
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please select an item to delete!");
+        } else {
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                Connection connection = null;
+                PreparedStatement preparedStatement = null;
+
+                try {
+                    DBConnector dbConnector = new DBConnector();
+                    connection = dbConnector.getConnection();
+
+                    TableModel tbl = t_able.getModel();
+                    String selectedId = tbl.getValueAt(rowIndex, 0).toString();
+
+                    String deleteQuery = "DELETE FROM occupant WHERE o_id = ?";
+                    preparedStatement = connection.prepareStatement(deleteQuery);
+                    preparedStatement.setString(1, selectedId);
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(null, "Record deleted successfully!");
+                        displayData();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No data found for the selected item.");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error deleting data: " + ex.getMessage());
+                } finally {
+                    try {
+                        if (preparedStatement != null) {
+                            preparedStatement.close();
+                        }
+                        if (connection != null) {
+                            connection.close();
+                        }
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Error deleting data: " + ex.getMessage());
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_deleteMouseClicked
 
     private void deleteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseEntered
-         delete.setBackground(hovercolor);
+        delete.setBackground(hovercolor);
     }//GEN-LAST:event_deleteMouseEntered
 
     private void deleteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseExited
-         delete.setBackground(navcolor);
+        delete.setBackground(navcolor);
     }//GEN-LAST:event_deleteMouseExited
 
     private void t_ableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_t_ableMouseClicked
-        
+        int rowIndex = t_able.getSelectedRow();
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+        } else {
+            TableModel model = t_able.getModel();
+
+            String id = model.getValueAt(rowIndex, 0).toString();
+            String fn = model.getValueAt(rowIndex, 1).toString();
+            String ln = model.getValueAt(rowIndex, 2).toString();
+            String cn = model.getValueAt(rowIndex, 3).toString();
+            String nm = model.getValueAt(rowIndex, 4).toString();
+            String d = model.getValueAt(rowIndex, 5).toString();
+
+            oid.setText(id);
+            ofn.setText(fn);
+            oln.setText(ln);
+            ocn.setText(cn);
+            onm.setSelectedItem(nm);
+            od.setText(d);
+        }
     }//GEN-LAST:event_t_ableMouseClicked
+
+    private void p_addKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_p_addKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_p_addKeyReleased
 
     /**
      * @param args the command line arguments
